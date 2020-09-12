@@ -1,0 +1,249 @@
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    background-color: #1D2226;
+    font-family: 'Manrope', sans-serif;
+    color: #FDFDFD;
+    min-height: 100vh;
+}
+
+/* Layout Cabeçalho */
+.header {
+    padding: 0 80px;
+    background-color: #0F1C26;
+    display: flex;
+    justify-content: center;
+}
+
+.header .center {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-grow: 1;
+}
+
+.center .container {
+    display: flex;
+    align-items: center;
+    flex-grow: 1;
+    position: relative;
+    margin: 0 45px 0 33px;
+}
+
+.header input {
+    background-color: #171B1E;
+    border: none;
+    padding: 16px 13px;
+    width: 100%;
+}
+
+input::placeholder {
+    color: #FDFDFD;
+}
+
+.header .icon-input {
+  position: absolute;
+  right: 16px;
+}
+
+.header a {
+    text-decoration: none;
+    color: #FDFDFD;
+}
+
+.header ul {
+    display: flex;
+    list-style-type: none;
+}
+
+.header li {
+    display: flex;
+    align-items: center;
+    margin: 0 45px;
+}
+
+.header .user {
+   margin-left: 45px;
+   margin-right: 0;
+}
+
+.header .user img {
+    display: block;
+    width: 52px;
+    margin-left: 8px;
+}
+
+/* Layout conteudo principal */
+.main {
+    display: flex;
+    margin: 24px 24px 0 100px;
+}
+
+.container-main {
+    margin-right: 71px;
+}
+
+/* Layout banner promocional */
+.banner-promotion {
+    display: flex;
+    color: #0F0915;
+    font-family: 'Quantico', sans-serif;
+    position: relative;
+    width: 100%;
+    margin-right: 71px;
+    margin-bottom: 30px;
+}
+
+.banner-promotion .division {
+    border-left: 1px solid #F294D8;
+    opacity: 0.2;
+    margin: 16px 24px;
+}
+
+.banner-promotion .container {
+    display: flex;
+    align-items: center;
+}
+
+.content-cupom, .content-time {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+}
+
+.banner-promotion img {
+    margin-right: 10px;
+}
+
+.banner-promotion .icon-cupom {
+    margin-left: -6px;
+}
+
+.banner-promotion .icon-time {
+    width: 35px;
+}
+
+.banner-promotion h2 {
+    font-size: 40px;
+    font-weight: normal;
+}
+
+.banner-promotion h3 {
+    font-size: 24px;
+    font-weight: normal;
+}
+
+.banner-promotion .background {
+    position: relative;
+    min-height: 120px;
+    width: 100%;
+}
+
+.banner-promotion .background-banner {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+}
+
+.banner-promotion .money {
+    position: absolute;
+    display: block;
+    right: 0;
+    bottom: 0;
+    margin-bottom: -14px;
+}
+
+.banner-promotion .adjust-content {
+    display: flex;
+    z-index: 1;
+    padding: 16px 24px;
+}
+
+/* Layout grade de filmes */
+
+.cards {
+    display: flex;
+    list-style-type: none;
+    font-weight: bold;
+}
+
+.card {
+    margin-top: 16px;
+    margin-right: 24px;
+    position: relative;
+}
+
+.card:last-child {
+    margin-right: 0;
+}
+
+.card .poster {
+    display: block;
+    opacity: 0.4;   
+    width: 100%;
+}
+
+.card .icon-star {
+    position: absolute;
+    top: 12px;
+    left: 9px;
+    z-index: 1;
+}
+
+.card .star {
+    display: flex;
+    align-items: center;
+    margin: 0 8px;
+}
+
+.card .name-film {
+    flex-grow: 1;
+}
+
+.card .nota {
+    margin-left: 6px;
+    font-size: 12px;
+}
+
+.card-footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin: 8px;
+    padding: 4px 8px;
+    font-size: 12px;
+    background-color: #A785ED;
+}
+
+.bag-button {
+    font-family: 'Manrope', sans-serif;
+    background-color: transparent;
+    border: none;
+    color: white;
+    font-weight: bold;
+}
+
+.bag-button:hover {
+    cursor: pointer;
+}
+
+.bag-button:focus {
+    outline: transparent;
+}
+
+.card .texts {
+    position: absolute;
+    width: 100%;
+    bottom: 0;
+}
+
+/* Sacola */
+.bag {
+    width: 450px;
+    height: 537px;
+    background-color: #ccc;
+}
