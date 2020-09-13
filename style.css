@@ -97,6 +97,11 @@ input::placeholder {
     width: 100%;
     margin-right: 71px;
     margin-bottom: 40px;
+    text-transform: uppercase;
+}
+
+.banner-promotion:hover {
+    cursor: pointer;
 }
 
 .banner-promotion .division {
@@ -164,7 +169,8 @@ input::placeholder {
     padding: 16px 24px;
 }
 
-/* Layout grade de filmes */
+/* Layout da grade de filmes */
+/* Layout da sessão Top Filmes */
 .content-films {
     margin-bottom: 24px;
 }
@@ -248,9 +254,8 @@ input::placeholder {
     bottom: 0;
 }
 
-/* Layout grade filmes */
+/* Layout da sessão Filmes */
 .content-films .title {
-    /* margin: 16px 0; */
     font-size: 24px;
 }
 
@@ -261,7 +266,6 @@ input::placeholder {
 .buttons-films {
     display: flex;
     margin-top: 16px;
-    /* margin-bottom: 24px; */
 }
 
 .buttons-films button {
@@ -278,7 +282,7 @@ input::placeholder {
 .films button:last-child {
     margin-right: 0;
 }
-/* Sacola */
+/* Layout do carrinho */
 .bag {
     background: rgba(0, 0, 0, 0.2);
     min-width: 312px;
@@ -334,6 +338,7 @@ input::placeholder {
     background-color: #0B1217;
     padding: 8px 16px;
     border: none;
+    color: #FDFDFD;
 }
 
 .bag-footer input::placeholder {
