@@ -165,6 +165,10 @@ input::placeholder {
 }
 
 /* Layout grade de filmes */
+.content-films {
+    margin-bottom: 24px;
+}
+
 .cards {
     display: flex;
     list-style-type: none;
@@ -172,8 +176,12 @@ input::placeholder {
 }
 
 .card {
-    margin: 0 24px 24px 0;
+    margin: 24px 24px 0 0;
     position: relative;
+}
+
+.top-films .card{
+    margin-top: 16px;
 }
 
 .card:last-child {
@@ -242,14 +250,18 @@ input::placeholder {
 
 /* Layout grade filmes */
 .content-films .title {
-    margin: 16px 0;
+    /* margin: 16px 0; */
     font-size: 24px;
+}
+
+.films .title {
+    margin-top: 40px;
 }
 
 .buttons-films {
     display: flex;
     margin-top: 16px;
-    margin-bottom: 24px;
+    /* margin-bottom: 24px; */
 }
 
 .buttons-films button {
