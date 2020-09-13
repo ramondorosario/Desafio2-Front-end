@@ -121,6 +121,10 @@ input::placeholder {
     justify-content: space-around;
 }
 
+.content-time .time {
+    width: 120px;
+}
+
 .banner-promotion img {
     margin-right: 10px;
 }
@@ -179,11 +183,13 @@ input::placeholder {
     display: flex;
     list-style-type: none;
     font-weight: bold;
+    width: 100%;
 }
 
 .card {
     margin: 24px 24px 0 0;
     position: relative;
+    width: 100%;
 }
 
 .top-films .card{
