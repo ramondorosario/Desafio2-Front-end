@@ -80,6 +80,7 @@ input::placeholder {
 /* Layout conteudo principal */
 .main {
     display: flex;
+    align-items: flex-start;
     margin: 24px 24px 0 100px;
 }
 
@@ -95,7 +96,7 @@ input::placeholder {
     position: relative;
     width: 100%;
     margin-right: 71px;
-    margin-bottom: 30px;
+    margin-bottom: 40px;
 }
 
 .banner-promotion .division {
@@ -164,7 +165,6 @@ input::placeholder {
 }
 
 /* Layout grade de filmes */
-
 .cards {
     display: flex;
     list-style-type: none;
@@ -172,8 +172,7 @@ input::placeholder {
 }
 
 .card {
-    margin-top: 16px;
-    margin-right: 24px;
+    margin: 0 24px 24px 0;
     position: relative;
 }
 
@@ -241,9 +240,102 @@ input::placeholder {
     bottom: 0;
 }
 
+/* Layout grade filmes */
+.content-films .title {
+    margin: 16px 0;
+    font-size: 24px;
+}
+
+.buttons-films {
+    display: flex;
+    margin-top: 16px;
+    margin-bottom: 24px;
+}
+
+.buttons-films button {
+    width: 100%;
+    margin-right: 24px;
+    padding: 8px;
+    font-family: 'Open Sans', sans-serif;
+    color: #E183C8;
+    background: rgba(225, 131, 200, 0.2);
+    border: 2px solid #E183C8;
+    font-size: 16px;
+}
+
+.films button:last-child {
+    margin-right: 0;
+}
 /* Sacola */
 .bag {
-    width: 450px;
-    height: 537px;
-    background-color: #ccc;
+    background: rgba(0, 0, 0, 0.2);
+    min-width: 312px;
+    position: sticky;
+    top: 24px;
+}
+
+.bag-header {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: linear-gradient(0deg, #A785ED, #A785ED), #C4C4C4;
+    padding: 18px 0;
+    margin-bottom: 32px;
+}
+
+.bag-header span{
+    font-size: 24px;
+    font-weight: bold;
+}
+
+.bag-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 0 16px;
+}
+
+.bag-content img {
+    width: 240px;
+}
+
+.bag-content h3 {
+    margin-top: 0;
+    margin-bottom: 6px;
+}
+
+.bag-content p {
+    color: #FDFDFD;
+    opacity: 0.8;
+}
+
+.bag-footer {
+    padding: 0 16px;
+}
+
+.bag-footer span {
+    font-size: 12px;
+}
+
+.bag-footer input {
+    width: 100%;
+    background-color: #0B1217;
+    padding: 8px 16px;
+    border: none;
+}
+
+.bag-footer input::placeholder {
+    color: #FDFDFD;
+    opacity: 0.4;
+}
+
+.container-bag-input {
+    position: relative;
+    margin-bottom: 24px;
+}
+
+.bag-footer img {
+    position: absolute;
+    right: 16px;
+    top: 8px;
 }
