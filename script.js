@@ -7,19 +7,19 @@ let minutos = Number(tempo.innerText.split(':')[1]);
 const temporizador = () => {
     if (minutos > 0 && segundos >= 0) {
         if(segundos != 0) {
-            segundos--
-            segundos <= 9 ? tempo.innerText = `00:0${minutos}:0${segundos}` : tempo.innerText = `00:0${minutos}:${segundos}`            
+            segundos--;
+            segundos <= 9 ? tempo.innerText = `00:0${minutos}:0${segundos}` : tempo.innerText = `00:0${minutos}:${segundos}` ;           
         }else {
             minutos--
-            segundos = 59
-            tempo.innerText = `00:0${minutos}:${segundos}`
+            segundos = 59;
+            tempo.innerText = `00:0${minutos}:${segundos}`;
         }             
     } else if (minutos === 0 && segundos != 0) {
         segundos--
-        segundos <= 9 ? tempo.innerText = `00:0${minutos}:0${segundos}` : tempo.innerText = `00:0${minutos}:${segundos}`
+        segundos <= 9 ? tempo.innerText = `00:0${minutos}:0${segundos}` : tempo.innerText = `00:0${minutos}:${segundos}`;
     } else {
         esconderBanner.hidden = true;
-        clearInterval(idTempo)
+        clearInterval(idTempo);
     }
 }
 const idTempo = setInterval(temporizador, 1000);
@@ -36,25 +36,80 @@ esconderBanner.addEventListener('click', () => {
     esconderBanner.hidden = true;
 })
 
-// Consumo de API dos filmes
-/** Encontra os 20 filmes mais populares */
-fetch('https://tmdb-proxy-workers.vhfmag.workers.dev/3/discover/movie?language=pt-BR')
-    .then(resposta => {
-        return resposta.json()
+// Consumos de API
+/** Lista os filmes mais populares */
+const listarFilmesPopulares = fetch('https://tmdb-proxy-workers.vhfmag.workers.dev/3/discover/movie?language=pt-BR').then(res => res.json());
+
+let listaDos5Populares = [];
+/** Cria os cards do top5 filmes populares */
+const criarCardsTop5Filmes = () => {
+    listarFilmesPopulares
+        .then(res => {
+            listaDos5Populares = []
+            const top5 = res.results.slice(0, 5);
+            criarListaFilmesPopulares(top5, listaDos5Populares);
+            criarCards(listaDos5Populares, '.top-films')
+        });
+}
+criarCardsTop5Filmes();
+
+let listaDos20Populares = [];
+
+/** Cria os cardst do top 20 filmes populares */
+const criarCardsTop20Filmes = () => {
+    listarFilmesPopulares
+        .then(res => {
+            listaDos20Populares = [];
+            const top20 = res.results;
+            criarListaFilmesPopulares(top20, listaDos20Populares);
+            criarCards(listaDos20Populares, '.films')
+        });
+}
+criarCardsTop20Filmes();
+
+// Consome a api da lista de generos dos filmes com seus respectivos id
+const listaIdGenero = fetch('https://tmdb-proxy-workers.vhfmag.workers.dev/3/genre/movie/list?language=pt-BR').then(res => res.json());
+let top20DoGenero = [];
+
+// Adiciona evento de click nos botões de generos dos filmes e gera uma nova lista de filmes de acordo com o genero
+const buttons = document.querySelectorAll('.buttons-genres')
+for (botao of buttons) {
+    botao.addEventListener('click', event => {
+        const botaoClicado = event.target;
+
+        if (botaoClicado.innerText === 'Todos') {
+            apagarListaAnterior();
+            criarCardsTop20Filmes();
+        } else {
+            listaIdGenero.then(res => {
+                for(genero of res.genres) {
+                    if (genero.name === botaoClicado.innerText) {
+                        fetch(`https://tmdb-proxy-workers.vhfmag.workers.dev/3/discover/movie?with_genres=${genero.id}&language=pt-BR`).then(res => res.json())
+                            .then(res => {
+                                apagarListaAnterior();
+                                top20DoGenero = [];
+                                criarListaFilmesPopulares(res.results, top20DoGenero);
+                                criarCards(top20DoGenero, '.films');                      
+                            })
+                    }
+                }
+            })
+        } 
     })
-        .then(respostaJson => {
-            const resultado = respostaJson.results;
+}
 
-            criarListaFilmesPopulares(resultado);
-            criarListaTop5();
-            criarListaTop20();
-        })
+/** Apaga a lista de filmes anterior para receber uma nova lista */
+const apagarListaAnterior = () => {
+    const listaAnterior = document.querySelectorAll('.films .cards');
+    for(x of listaAnterior) {
+        x.remove();
+    }
+}
 
-/** Cria a lista com o Top20 filmes mais populares*/
-const filmesPopulares = [];
-const criarListaFilmesPopulares = (lista) => {
+/** Cria uma lista de filmes formatado*/
+const criarListaFilmesPopulares = (lista, listaDestino) => {
     for (filme of lista) {
-        filmesPopulares.push({
+        listaDestino.push({
             id: filme.id,
             nomeFilme: filme.title,
             urlPoster: filme.poster_path,
@@ -62,17 +117,6 @@ const criarListaFilmesPopulares = (lista) => {
             valor: `${filme.price.toFixed(2)}`.replace('.', ',')
         })
     }
-}
-
-/** Cria lista Top5 filmes populares */
-const criarListaTop5 = () => {
-    const novaLista = filmesPopulares.slice(0, 5);
-    criarCards(novaLista, '.top-films')
-}
-
-/** Cria lista Top20 filmes populares */
-const criarListaTop20 = () => {
-    criarCards(filmesPopulares, '.films')
 }
 
 /** Cria e implementa os cards no site*/ 
@@ -83,24 +127,19 @@ const criarCards = (lista, caminho) => { // caminho é o container onde quer ins
     for (let i = 0; i < linhas; i++) {
         const ul = document.createElement('ul');
         ul.classList.add('cards');
-        ul.classList.add('cards-top-films');
-        
         container.append(ul);
     }
 
     let ulsCriadas;   
-    if (caminho === '.top-films') {
-        ulsCriadas = document.querySelectorAll('.top-films .cards-top-films');
-    } else if (caminho === '.films') {
-        ulsCriadas = document.querySelectorAll('.films .cards-top-films');
-    }
+    if (caminho === '.top-films') ulsCriadas = document.querySelectorAll('.top-films .cards');
+    else if (caminho === '.films') ulsCriadas = document.querySelectorAll('.films .cards');
 
     let ulPosicao = 0;
     let quebra = 0;
+
     for(item of lista) {     
-        if (quebra % 5 === 0 && quebra != 0) {
-            ulPosicao++
-        } 
+        if (quebra % 5 === 0 && quebra != 0) ulPosicao++ 
+
         const li = document.createElement('li');
         li.classList.add('card');
     

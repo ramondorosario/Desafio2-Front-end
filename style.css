@@ -269,12 +269,12 @@ input::placeholder {
     margin-top: 40px;
 }
 
-.buttons-films {
+.buttons-genres {
     display: flex;
     margin-top: 16px;
 }
 
-.buttons-films button {
+.buttons-genres button {
     width: 100%;
     margin-right: 24px;
     padding: 8px;
