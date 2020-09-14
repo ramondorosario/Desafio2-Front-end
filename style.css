@@ -71,6 +71,10 @@ input::placeholder {
    margin-right: 0;
 }
 
+.header li img {
+    margin-right: 10px;
+}
+
 .header .user img {
     display: block;
     width: 52px;
