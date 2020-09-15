@@ -303,6 +303,10 @@ input::placeholder {
     top: 24px;
 }
 
+.bag-container {
+    padding: 0 16px 24px;
+}
+
 .bag-header {
     display: flex;
     align-items: center;
@@ -321,7 +325,6 @@ input::placeholder {
     display: flex;
     flex-direction: column;
     align-items: center;
-    padding: 0 16px;
 }
 
 .bag-content img {
@@ -336,10 +339,6 @@ input::placeholder {
 .bag-content p {
     color: #FDFDFD;
     opacity: 0.8;
-}
-
-.bag-footer {
-    padding: 0 16px;
 }
 
 .bag-footer span {
@@ -361,7 +360,6 @@ input::placeholder {
 
 .container-bag-input {
     position: relative;
-    margin-bottom: 24px;
 }
 
 .bag-footer img {
@@ -411,4 +409,14 @@ input::placeholder {
 
 .films-bag .content-add img:hover {
     cursor: pointer;
+}
+
+/* Layout botão de confirmar pedido do carrinho */
+.confirm-bag {
+    display: flex;
+    justify-content: space-between;
+    background-color: #E25EBF;
+    font-weight: bold;
+    margin-top: 24px;
+    padding: 16px;
 }

@@ -41,6 +41,7 @@ esconderBanner.addEventListener('click', () => {
 const listarFilmesPopulares = fetch('https://tmdb-proxy-workers.vhfmag.workers.dev/3/discover/movie?language=pt-BR').then(res => res.json());
 let listaGlobal = [];
 let listaDos5Populares = [];
+
 /** Cria os cards do top5 filmes populares */
 const criarCardsTop5Filmes = () => {
     listarFilmesPopulares
@@ -54,8 +55,7 @@ const criarCardsTop5Filmes = () => {
 criarCardsTop5Filmes();
 
 let top20DoGenero = [];
-
-/** Cria os cardst do top 20 filmes populares */
+/** Cria os cards do top 20 filmes populares */
 const criarCardsTop20Filmes = () => {
     top20DoGenero = [];
     listarFilmesPopulares
@@ -77,7 +77,7 @@ let buttons = document.querySelectorAll('.buttons-genres button');
 for (botao of buttons) {
     botao.addEventListener('click', event => {
         buttons = document.querySelectorAll('.buttons-genres button');
-        // Remove a classe clicked do botao que a tiver
+        // Remove a classe clicked do botao que não está selecionado
         for(botao of buttons) {
             if (botao.classList.contains('clicked')) {
                 botao.classList.remove('clicked');
@@ -92,6 +92,7 @@ for (botao of buttons) {
         } else {
             listaIdGenero.then(res => {
                 for(genero of res.genres) {
+                    // Faz a busca dos 20 filmes populares de acordo com o genero escolhido
                     if (genero.name === botaoClicado.innerText) {
                         fetch(`https://tmdb-proxy-workers.vhfmag.workers.dev/3/discover/movie?with_genres=${genero.id}&language=pt-BR`).then(res => res.json())
                             .then(res => {
@@ -107,7 +108,7 @@ for (botao of buttons) {
     })
 }
 
-/** Apaga a lista de filmes anterior para receber uma nova lista */
+/** Apaga os cards da lista top20 do site, para receber uma nova lista de cards */
 const apagarListaAnterior = () => {
     const listaAnterior = document.querySelectorAll('.films .cards');
     for(x of listaAnterior) {
@@ -115,7 +116,7 @@ const apagarListaAnterior = () => {
     }
 }
 
-/** Cria uma lista de filmes formatado*/
+/** Cria uma lista de filmes formatado para criação dos cards*/
 const criarListaFilmesPopulares = (lista, listaDestino) => {
     for (filme of lista) {
         listaDestino.push({
@@ -213,27 +214,39 @@ const criarCards = (lista, caminho) => { // caminho é o container onde quer ins
     }
 }
 
-// Adicionando itens na sacola
-let filmesAdicionados = [];
+let filmesAdicionadosNaSacola = [];
+// Encontra toda informação de um filme quando o botao de add na sacola for clicado e o adiciona na sacola
 const encontrarFilme = (id) => {
     const idFilme = Number(id);
     const listaGlobal = listaDos5Populares.concat(top20DoGenero);
 
     const filme = listaGlobal.filter(item => idFilme === item.id);
 
-    if (!filmesAdicionados.length) {
-        filmesAdicionados.push(filme[0]);
-        addFilmeNaSacola(filme[0])
+    if (!filmesAdicionadosNaSacola.length) {
+        filme[0].quantidade = 1;
+        filmesAdicionadosNaSacola.push(filme[0]);
+        addFilmeNaSacola(filme[0]);
     } else {
-        const condicao = filmesAdicionados.filter(item => item.id === filme[0].id);
+        const condicao = filmesAdicionadosNaSacola.filter(item => item.id === filme[0].id);
+
+        if (condicao.length) {
+            filme[0].quantidade++;
+            atualizarItemNaSacola(filme[0]);
+        }
         if(!condicao.length) {
-            filmesAdicionados.push(filme[0]);
-            addFilmeNaSacola(filme[0])
+            filme[0].quantidade = 1;
+            filmesAdicionadosNaSacola.push(filme[0]);
+            addFilmeNaSacola(filme[0]);
         };
     }
-    console.log(filmesAdicionados)
+
+    const temBotao = document.querySelector('.confirm-bag');
+    if(temBotao === null) inserirBotaoConfirmarDados();
+
+    totalDoCarrinho(filmesAdicionadosNaSacola);
 }
 
+/** Adiciona o filme que o usuario gostaria de add na sacola */
 const addFilmeNaSacola = (filme) => {
     const conteudoSacolaVazia = document.querySelector('.bag .empty-bag');
     conteudoSacolaVazia.setAttribute('hidden', '');
@@ -274,6 +287,18 @@ const addFilmeNaSacola = (filme) => {
     iconeAdicionar.setAttribute('src', 'images/bag/add.png');
     iconeAdicionar.classList.add('add');
 
+    li.id = filme.id; //Adiciona id no container do filme que gostaria de mudar a quantidade na sacola
+    // Adiciona o evento de click no icone de adicionar quantidade
+    iconeAdicionar.addEventListener('click', () => {
+        const idFilme = Number(li.id)
+        filmesAdicionadosNaSacola.forEach((item, i) => {
+            if (item.id === idFilme) {
+                filmesAdicionadosNaSacola[i].quantidade++
+                atualizarItemNaSacola(filmesAdicionadosNaSacola[i])
+            }
+        })       
+    })
+
     const quantidadeFilme = document.createElement('span');
     quantidadeFilme.classList.add('amount');
     quantidadeFilme.innerText = 1;
@@ -281,10 +306,72 @@ const addFilmeNaSacola = (filme) => {
     const iconeDeletar = document.createElement('img');
     iconeDeletar.setAttribute('src', 'images/bag/delete.png');
     iconeDeletar.classList.add('delete');
+
+    // Adiciona o evento de click no icone de deletar, para diminuir a quantidade ou excluir o item da sacola
+    iconeDeletar.addEventListener('click', () => {
+        const idFilme = Number(li.id);
+
+        filmesAdicionadosNaSacola.forEach((item, i) => {
+            if (item.id === idFilme) {
+                filmesAdicionadosNaSacola[i].quantidade--
+                if (filmesAdicionadosNaSacola[i].quantidade === 0) {
+                    const filmesDaSacola = document.querySelectorAll('.films-bag li');
+                    if(filmesDaSacola.length === 1) {
+                        // Caso só exista um filme na sacola, ao ser removido, volta o layout da sacola vazia 
+                        document.querySelector('.empty-bag').toggleAttribute('hidden');
+                        document.querySelector('.confirm-bag').remove();
+                    }
+                    // Remove o filme da sacola e da lista de filmes adicionados na sacola
+                    filmesDaSacola[i].remove();
+                    filmesAdicionadosNaSacola.splice(i, 1);
+                }                
+                atualizarItemNaSacola(filmesAdicionadosNaSacola[i]);                
+            }
+        })       
+    })
     
     conteudoAdicionar.append(iconeAdicionar);
     conteudoAdicionar.append(quantidadeFilme);
     conteudoAdicionar.append(iconeDeletar);
 
     li.append(conteudoAdicionar);
+}
+
+/** Atualiza a quantidade de um filme em específico */
+const atualizarItemNaSacola = (filme) => {
+    const filmesNoCarrinho = document.querySelectorAll('.films-bag');
+
+    const posicao = filmesAdicionadosNaSacola.indexOf(filme);    
+    document.querySelectorAll('.films-bag .amount')[posicao].innerText = filme.quantidade;
+    totalDoCarrinho(filmesAdicionadosNaSacola);
+}
+
+/** Calcula o total em compras do carrinho */
+const totalDoCarrinho = (listaDeFilmeDoCarrinho) => {
+    const addTotalDoCarrinho = document.querySelector('.confirm-bag .total-price');
+    
+    let total = 0;
+    for(filme of filmesAdicionadosNaSacola) {
+        total += Number(filme.valor.replace(',', '.')) * filme.quantidade;
+    }
+
+    addTotalDoCarrinho.innerText = `R$ ${total.toFixed(2)}`
+}
+
+/** Insere o botão de confirmar dados para efetuar o pagamento */
+const inserirBotaoConfirmarDados = () => {
+    const container = document.querySelector('.bag .bag-container');
+
+    const div = document.createElement('div');
+    div.classList.add('confirm-bag');
+
+    const textoBotao = document.createElement('span');
+    textoBotao.innerText = 'Confirme seus dados'
+
+    const totalDoCarrinho = document.createElement('span');
+    totalDoCarrinho.classList.add('total-price');
+
+    div.append(textoBotao);
+    div.append(totalDoCarrinho);
+    container.append(div);
 }
