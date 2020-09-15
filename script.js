@@ -8,7 +8,7 @@ const temporizador = () => {
     if (minutos > 0 && segundos >= 0) {
         if(segundos != 0) {
             segundos--;
-            segundos <= 9 ? tempo.innerText = `00:0${minutos}:0${segundos}` : tempo.innerText = `00:0${minutos}:${segundos}` ;           
+            segundos <= 9 ? tempo.innerText = `00:0${minutos}:0${segundos}` : tempo.innerText = `00:0${minutos}:${segundos}`;           
         }else {
             minutos--
             segundos = 59;
@@ -39,7 +39,7 @@ esconderBanner.addEventListener('click', () => {
 // Consumos de API
 /** Lista os filmes mais populares */
 const listarFilmesPopulares = fetch('https://tmdb-proxy-workers.vhfmag.workers.dev/3/discover/movie?language=pt-BR').then(res => res.json());
-
+let listaGlobal = [];
 let listaDos5Populares = [];
 /** Cria os cards do top5 filmes populares */
 const criarCardsTop5Filmes = () => {
@@ -48,35 +48,44 @@ const criarCardsTop5Filmes = () => {
             listaDos5Populares = []
             const top5 = res.results.slice(0, 5);
             criarListaFilmesPopulares(top5, listaDos5Populares);
-            criarCards(listaDos5Populares, '.top-films')
+            criarCards(listaDos5Populares, '.top-films');
         });
 }
 criarCardsTop5Filmes();
 
-let listaDos20Populares = [];
+let top20DoGenero = [];
 
 /** Cria os cardst do top 20 filmes populares */
 const criarCardsTop20Filmes = () => {
+    top20DoGenero = [];
     listarFilmesPopulares
         .then(res => {
-            listaDos20Populares = [];
+            top20DoGenero = [];
+            listaGlobal = [];
             const top20 = res.results;
-            criarListaFilmesPopulares(top20, listaDos20Populares);
-            criarCards(listaDos20Populares, '.films')
+            criarListaFilmesPopulares(top20, top20DoGenero);
+            criarCards(top20DoGenero, '.films');
         });
 }
 criarCardsTop20Filmes();
 
 // Consome a api da lista de generos dos filmes com seus respectivos id
 const listaIdGenero = fetch('https://tmdb-proxy-workers.vhfmag.workers.dev/3/genre/movie/list?language=pt-BR').then(res => res.json());
-let top20DoGenero = [];
 
 // Adiciona evento de click nos botões de generos dos filmes e gera uma nova lista de filmes de acordo com o genero
-const buttons = document.querySelectorAll('.buttons-genres')
+let buttons = document.querySelectorAll('.buttons-genres button');
 for (botao of buttons) {
     botao.addEventListener('click', event => {
+        buttons = document.querySelectorAll('.buttons-genres button');
+        // Remove a classe clicked do botao que a tiver
+        for(botao of buttons) {
+            if (botao.classList.contains('clicked')) {
+                botao.classList.remove('clicked');
+            }
+        }
         const botaoClicado = event.target;
-
+        // Adiciona a classe clicked no botão clicado
+        botaoClicado.classList.add('clicked');
         if (botaoClicado.innerText === 'Todos') {
             apagarListaAnterior();
             criarCardsTop20Filmes();
@@ -142,6 +151,8 @@ const criarCards = (lista, caminho) => { // caminho é o container onde quer ins
 
         const li = document.createElement('li');
         li.classList.add('card');
+
+        ulsCriadas[ulPosicao].append(li);
     
         const imgPoster = document.createElement('img');
         imgPoster.setAttribute('src', item.urlPoster);
@@ -153,10 +164,16 @@ const criarCards = (lista, caminho) => { // caminho é o container onde quer ins
     
         const divPai = document.createElement('div');
         divPai.classList.add('texts');
+
+        li.append(imgPoster);
+        li.append(imgIcon);
+        li.append(divPai);
     
         const divFilho1 = document.createElement('div');
         divFilho1.classList.add('star');
-    
+        
+        divPai.append(divFilho1);
+        
         const nomeFilme = document.createElement('span');
         nomeFilme.classList.add('name-film');
         nomeFilme.innerText = item.nomeFilme;
@@ -167,33 +184,107 @@ const criarCards = (lista, caminho) => { // caminho é o container onde quer ins
         const notaFilme = document.createElement('span');
         notaFilme.classList.add('nota');
         notaFilme.innerText = item.nota;   
-        
-        const divFilho2 = document.createElement('div');
-        divFilho2.classList.add('card-footer');
-    
-        const botaoAddSacola = document.createElement('button');
-        botaoAddSacola.classList.add('bag-button');
-        botaoAddSacola.innerText = 'Sacola'
-    
-        const precoFilme = document.createElement('span');
-        const valor = `R$ ${item.valor}`
-        precoFilme.innerText = valor;
-    
+
         divFilho1.append(nomeFilme);
         divFilho1.append(iconeEstrelaNota);
         divFilho1.append(notaFilme);
-    
-        divFilho2.append(botaoAddSacola);
-        divFilho2.append(precoFilme);
         
-        divPai.append(divFilho1);
+        const divFilho2 = document.createElement('div');
+        divFilho2.classList.add('card-footer');
+        
+        divFilho2.id = item.id;
+        divFilho2.addEventListener('click', () => {
+            encontrarFilme(divFilho2.id);
+        })
+        
         divPai.append(divFilho2);
     
-        li.append(imgPoster);
-        li.append(imgIcon);
-        li.append(divPai);
+        const addSacola = document.createElement('div');
+        addSacola.innerText = 'Sacola'
+    
+        const precoFilme = document.createElement('div');
+        const valor = `R$ ${item.valor}`
+        precoFilme.innerText = valor;
 
-        ulsCriadas[ulPosicao].append(li);
+        divFilho2.append(addSacola);
+        divFilho2.append(precoFilme);
+
         quebra++
     }
+}
+
+// Adicionando itens na sacola
+let filmesAdicionados = [];
+const encontrarFilme = (id) => {
+    const idFilme = Number(id);
+    const listaGlobal = listaDos5Populares.concat(top20DoGenero);
+
+    const filme = listaGlobal.filter(item => idFilme === item.id);
+
+    if (!filmesAdicionados.length) {
+        filmesAdicionados.push(filme[0]);
+        addFilmeNaSacola(filme[0])
+    } else {
+        const condicao = filmesAdicionados.filter(item => item.id === filme[0].id);
+        if(!condicao.length) {
+            filmesAdicionados.push(filme[0]);
+            addFilmeNaSacola(filme[0])
+        };
+    }
+    console.log(filmesAdicionados)
+}
+
+const addFilmeNaSacola = (filme) => {
+    const conteudoSacolaVazia = document.querySelector('.bag .empty-bag');
+    conteudoSacolaVazia.setAttribute('hidden', '');
+
+    const itemSacola = document.querySelector('.bag .films-bag');
+
+    const li = document.createElement('li');
+    itemSacola.append(li);
+
+    const conteudoSobreFilme = document.createElement('div');
+    conteudoSobreFilme.classList.add('films-bag-content');
+
+    const minePoster = document.createElement('img');
+    minePoster.setAttribute('src', filme.urlPoster);
+    minePoster.classList.add('little-poster');
+
+    conteudoSobreFilme.append(minePoster);        
+    li.append(conteudoSobreFilme);
+
+    const containerNomePreco = document.createElement('div');
+    containerNomePreco.classList.add('name-price');
+
+    const nomeFilme = document.createElement('span');
+    nomeFilme.innerText = filme.nomeFilme;
+    
+    const precoFilme = document.createElement('span');
+    precoFilme.innerText = `R$ ${Number(filme.valor.replace(',', '.')).toFixed(2)}`;
+
+    containerNomePreco.append(nomeFilme);
+    containerNomePreco.append(precoFilme);
+
+    conteudoSobreFilme.append(containerNomePreco);
+
+    const conteudoAdicionar = document.createElement('div');
+    conteudoAdicionar.classList.add('content-add');
+
+    const iconeAdicionar = document.createElement('img');
+    iconeAdicionar.setAttribute('src', 'images/bag/add.png');
+    iconeAdicionar.classList.add('add');
+
+    const quantidadeFilme = document.createElement('span');
+    quantidadeFilme.classList.add('amount');
+    quantidadeFilme.innerText = 1;
+
+    const iconeDeletar = document.createElement('img');
+    iconeDeletar.setAttribute('src', 'images/bag/delete.png');
+    iconeDeletar.classList.add('delete');
+    
+    conteudoAdicionar.append(iconeAdicionar);
+    conteudoAdicionar.append(quantidadeFilme);
+    conteudoAdicionar.append(iconeDeletar);
+
+    li.append(conteudoAdicionar);
 }

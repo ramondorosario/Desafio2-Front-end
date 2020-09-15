@@ -39,6 +39,8 @@ body {
     border: none;
     padding: 16px 13px;
     width: 100%;
+    color: #FDFDFD;
+    opacity: .8;
 }
 
 input::placeholder {
@@ -85,7 +87,7 @@ input::placeholder {
 .main {
     display: flex;
     align-items: flex-start;
-    margin: 24px 24px 0 100px;
+    margin: 24px 24px 24px 100px;
 }
 
 .container-main {
@@ -179,10 +181,6 @@ input::placeholder {
 
 /* Layout da grade de filmes */
 /* Layout da sessão Top Filmes */
-.content-films {
-    margin-bottom: 24px;
-}
-
 .cards {
     display: flex;
     list-style-type: none;
@@ -242,20 +240,12 @@ input::placeholder {
     background-color: #A785ED;
 }
 
-.bag-button {
-    font-family: 'Manrope', sans-serif;
-    background-color: transparent;
-    border: none;
-    color: white;
-    font-weight: bold;
-}
-
-.bag-button:hover {
+.card-footer:hover {
     cursor: pointer;
 }
 
-.bag-button:focus {
-    outline: transparent;
+.card-footer div {
+    display: block;
 }
 
 .card .texts {
@@ -283,10 +273,23 @@ input::placeholder {
     margin-right: 24px;
     padding: 8px;
     font-family: 'Open Sans', sans-serif;
-    color: #E183C8;
-    background: rgba(225, 131, 200, 0.2);
-    border: 2px solid #E183C8;
+    font-weight: 600;
+    background-color: transparent;
+    border: 2px solid #E5E5E5;
+    color: #E5E5E5;
+    opacity: .8;
     font-size: 16px;
+    outline: none;
+}
+
+.buttons-genres .clicked {
+    background: rgba(225, 131, 200, 0.2);
+    border-color: #E183C8;
+    color: #E183C8;
+}
+
+.buttons-genres button {
+    cursor: pointer;
 }
 
 .films button:last-child {
@@ -365,4 +368,47 @@ input::placeholder {
     position: absolute;
     right: 16px;
     top: 8px;
+}
+
+/* Layout conteudo adicionado ao carrinho */
+.films-bag {
+    list-style: none;
+    width: 100%;
+    margin-bottom: 24px;
+}
+
+.films-bag li {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 21px;
+}
+
+.films-bag .little-poster {
+    width: 43px;
+    height: 67px;
+}
+
+.films-bag-content {
+    display: flex;
+    align-items: center;
+}
+
+.films-bag-content .name-price span {
+    display: flex;
+    margin: 4px 13px;
+}
+
+.films-bag .content-add {
+    display: flex;
+    align-items: center;
+}
+
+.films-bag .content-add img {
+    width: 24px;
+    margin: 12px;
+}
+
+.films-bag .content-add img:hover {
+    cursor: pointer;
 }

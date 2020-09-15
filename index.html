@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="style.css">
-    <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@500;700&family=Open+Sans:wght@600;700&family=Quantico:wght@400;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@500;700&family=Open+Sans:wght@400;600&family=Quantico:wght@400;700&display=swap" rel="stylesheet">
 
     <title>Desafio 2</title>
 </head>
@@ -74,8 +74,8 @@
                                     <span class="nota">8.8</span>
                                 </div>
                                 <div class="card-footer">
-                                    <button class="bag-button">Sacola</button>
-                                    <span>R$ 2,49</span>
+                                    <div>Sacola</div>
+                                    <div>R$ 2,49</div>
                                 </div>
                             </div>                        
                         </li>
@@ -84,7 +84,7 @@
                 <div class="films">
                     <h3 class="title">Filmes</h3>
                     <div class="buttons-genres">
-                        <button>Todos</button>
+                        <button class="clicked">Todos</button>
                         <button>Ação</button>
                         <button>Romance</button>
                         <button>Ficção científica</button>
@@ -99,9 +99,28 @@
                 <span>Sacola</span>
             </div>
             <div class="bag-content">
-                <h3>Sua sacola está vazia</h3>
-                <p>Adicione filmes agora</p>
-                <img src="images/bag/Social Media.svg" alt="">
+                <div class="empty-bag">
+                    <h3>Sua sacola está vazia</h3>
+                    <p>Adicione filmes agora</p>
+                    <img src="images/bag/Social Media.svg" alt="">
+                </div>
+                <ul class="films-bag">
+                    <!-- <li>
+                        <div class="films-bag-content">
+                            <img src="images/cards/Apollo_18_capa.jpg" class="little-poster" alt="">
+                            <div class="name-price">
+                                <span>Nome</span>
+                                <span>R$ 2,40</span>
+                            </div>
+                        </div>
+                        <div class="content-add">
+                            <img src="images/bag/add.png" class="add" alt="">
+                            <span class="amount">1</span>
+                            <img src="images/bag/delete.png" class="delete" alt="">
+                        </div>
+                    </li> -->
+                </ul>
+
             </div>
             <div class="bag-footer">
                 <span>Insira seu cupom</span>
