@@ -36,7 +36,7 @@
     <div class="main">
         <div class="container-main"> 
             <form>
-                <div class="inital-information">
+                <div class="initial-information">
                     <h2>Informações iniciais</h2>
                     <div class="container">
                         <label>
@@ -49,7 +49,7 @@
                         </label>
                         <label>
                             <span>Telefone</span>
-                            <input inputmode="numeric" placeholder="+55 (71) 9 9999-9999">
+                            <input type="tel" class="tel" placeholder="+55 (71) 9 9999-9999">
                         </label>
                     </div>
                 </div>
@@ -58,11 +58,11 @@
                     <div class="container">
                         <label>
                             <span>CEP</span> 
-                            <input inputmode="numeric" placeholder="Ex: 00000-00">
+                            <input inputmode="numeric" class="cep" placeholder="Ex: 00000-000">
                         </label>
                         <label>
                             <span>País</span> 
-                            <input type="text" placeholder="Ex: Brasil">
+                            <input type="text" class="country" placeholder="Ex: Brasil">
                         </label>
                         <label>
                             <span>Cidade</span> 
@@ -83,15 +83,15 @@
                     <div class="container">
                         <label>
                             <span>Numero do cartão</span> 
-                            <input inputmode="numeric" placeholder="Ex: 0000 0000 0000 0000">
+                            <input inputmode="numeric" class="card-number" placeholder="Ex: 0000 0000 0000 0000">
                         </label>
                         <label>
                             <span>Nome do cartão</span> 
-                            <input type="text" placeholder="Ex: FULANO DA SILVA">
+                            <input type="text" class="card-name" placeholder="Ex: FULANO DA SILVA">
                         </label>
                         <label>
                             <span>Data de expiração</span> 
-                            <input inputmode="numeric" placeholder="MM/YYYY">
+                            <input type="datetime" placeholder="MM/YYYY">
                         </label>
                         <label>
                             <span>CVV</span>
@@ -127,8 +127,11 @@
                                 <img src="/images/bag/delete.png" class="delete" alt="">
                             </div>
                         </li> -->
-                    </ul>
-    
+                    </ul>    
+                </div>
+                <div class="subtotal">
+                    <span>Subtotal</span>
+                    <span class="value">R$ 0.00</span>
                 </div>
                 <div class="bag-footer">
                     <span>Insira seu cupom</span>
@@ -137,10 +140,9 @@
                         <img src="/images/bag/icon input-bag.png" alt="Ícone dentro do input">
                     </div>
                 </div>
-                <!-- <div class="confirm-bag">
-                    <span>Confirme seus dados</span>
-                    <span class="total-price">R$ 5.00<span>
-                </div> -->
+                <div class="initial-page" hidden>
+                    <button>Voltar para página incial</button>
+                </div>
             </div>
         </div>
     </div>

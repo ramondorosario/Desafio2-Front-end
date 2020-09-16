@@ -111,7 +111,7 @@ input::placeholder {
 
 
 /* Form */
-form .inital-information, .address, .payament-information {
+form .initial-information, .address, .payament-information {
     background-color: #171B1E;
     margin-top: 16px;
     display: flex;
@@ -169,7 +169,13 @@ form .inital-information {
     margin-top: 0;
 }
 
+form .card-name {
+    text-transform: uppercase;
+}
 
+.initial-page button:hover {
+    cursor: pointer;
+}
 
 
 
@@ -311,14 +317,27 @@ form .inital-information {
     cursor: pointer;
 }
 
-/* Layout botão de confirmar pedido do carrinho */
-.confirm-bag {
+.bag .subtotal {
     display: flex;
     justify-content: space-between;
+    margin-bottom: 16px;
+}
+
+/* Layout botão de confirmar pedido do carrinho */
+.bag .initial-page {
+    text-align: center;
+}
+
+.bag .initial-page button {
     background-color: #E25EBF;
     font-weight: bold;
     margin-top: 24px;
     padding: 16px;
+    color: #FDFDFD;
+    border: none;
+    font-family: 'Manrope', sans-serif;
+    font-size: 16px;
+    width: 100%;
 }
 
 .confirm-bag:hover {

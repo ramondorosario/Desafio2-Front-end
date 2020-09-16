@@ -1,16 +1,15 @@
+// Resgata os itens que foram adicionados na sacola na página principal
 const filmes = localStorage.getItem('filmes');
 const filmesAdicionadosNaSacola = JSON.parse(filmes);
 
 const cupom = localStorage.getItem('cupom');
-
+// Verifica se a pessoa informou o cupom válido na página principal
 if (cupom === 'HTMLNAOELINGUAGEM') {
     const inputCupom = document.querySelector('.bag .container-bag-input input');
     inputCupom.value = cupom;
 }
 
-/** Adiciona o filme que o usuario gostaria de add na sacola */
-// Encontra toda informação de um filme quando o botao de add na sacola for clicado e o adiciona na sacola
-
+/** Adiciona os filmes que foram adicionados na sacola na página principal */ 
 const addFilmeNaSacola = (filme) => {
     const conteudoSacolaVazia = document.querySelector('.bag .empty-bag');
     conteudoSacolaVazia.setAttribute('hidden', '');
@@ -101,6 +100,7 @@ const addFilmeNaSacola = (filme) => {
     li.append(conteudoAdicionar);
 }
 
+// Se existir conteudo na lista de filmes resgatada, adiciona sacola
 if (filmesAdicionadosNaSacola !== null) {
     for(filme of filmesAdicionadosNaSacola) {
         addFilmeNaSacola(filme);
@@ -114,20 +114,25 @@ const atualizarItemNaSacola = (filme) => {
         const posicao = filmesAdicionadosNaSacola.indexOf(filme);
         document.querySelectorAll('.films-bag .amount')[posicao].innerText = filme.quantidade;
     }
-    // totalDoCarrinho(filmesAdicionadosNaSacola);
+    totalDoCarrinho(filmesAdicionadosNaSacola);
 }
 
-/** Calcula o total em compras do carrinho */
-// const totalDoCarrinho = (listaDeFilmeDoCarrinho) => {
-//     const addTotalDoCarrinho = document.querySelector('.confirm-bag .total-price');
-    
-//     let total = 0;
-//     for(filme of filmesAdicionadosNaSacola) {
-//         total += Number(filme.valor.replace(',', '.')) * filme.quantidade;
-//     }
+/** Calcula o subtotal em compras do carrinho */
+const totalDoCarrinho = (listaDeFilmeDoCarrinho) => {
+    const valorSubtotal = document.querySelector('.bag .subtotal .value');
 
-//     addTotalDoCarrinho.innerText = `R$ ${total.toFixed(2)}`
-// }
+    let subtotal = 0;
+    for(filme of filmesAdicionadosNaSacola) {
+        subtotal += Number(filme.valor.replace(',', '.')) * filme.quantidade;
+    }
+    valorSubtotal.innerText = `R$ ${subtotal.toFixed(2)}`;
+
+    const botaoVoltar = document.querySelector('.bag .initial-page');
+    if(subtotal === 0) botaoVoltar.toggleAttribute('hidden');
+}
+//Verifica se existe filmes na sacola e informa o subtotal da compra
+if(filmesAdicionadosNaSacola) totalDoCarrinho(filmesAdicionadosNaSacola);
+else document.querySelector('.bag .initial-page').toggleAttribute('hidden')
 
 /** Insere o botão de confirmar dados para efetuar o pagamento */
 const calcularSubTotal = () => {
@@ -145,3 +150,81 @@ const calcularSubTotal = () => {
     div.append(totalDoCarrinho);
     container.append(div);
 }
+
+// Tratando dados informados no formulário
+// Adiciona evento blur. Quando o input do telefone perder o focus, o número será formatado
+const inputTelefone = document.querySelector('form .tel');
+inputTelefone.addEventListener('blur', event => {
+    const numero = inputTelefone.value;
+
+    if(numero === '') return;
+
+    const numeroTratado = tratarTelefone(numero);
+    numeroTratado ? inputTelefone.value = numeroTratado : '';
+}) 
+const tratarTelefone = (numero) => {
+    const tel = numero;
+    if(tel.length === 11) {
+        const resultado = `(${tel.substr(0, 2)}) 9${tel.substr(3, 4)}-${tel.substr(7, 4)}`
+        return resultado
+    } else if(tel.length === 10) {
+        const resultado = `(${tel.substr(0, 2)}) 9${tel.substr(2, 4)}-${tel.substr(6, 4)}`
+        return resultado
+    } else if (tel.length === 9) {
+        const resultado = `${tel.substr(0, 5)}-${tel.substr(5, 4)}`
+        return resultado
+    } else if (tel.length === 8) {
+        const resultado = `${tel.substr(0, 4)}-${tel.substr(4, 4)}`
+        return resultado
+    }
+}
+
+// ---------Terminar de Fazer ---------
+const todaPrimeiraLetraMaiuscula = (nome, caminho) => {
+    const conteudo = document.querySelector(`form ${caminho}`);
+    const nome = conteudo.value;
+    conteudo.value = nome[0].toUpperCase() + nome.slice(1, nome.length);
+}
+
+// Adiciona evento blur. Quando o input do cep perder o focus, o cep será formatado
+const inputCep = document.querySelector('form .cep');
+inputCep.addEventListener('blur', event => {
+    const cep = inputCep.value;
+    if(cep === '') return;
+
+    const cepTratado = tratarCep(cep);
+    cepTratado ? inputCep.value = cepTratado : '';
+}) 
+const tratarCep = (numero) => {
+    const cep = numero;
+    if(cep.length === 9 && cep[6] === '-') {
+        const resultado = cep;
+        return resultado
+    } else if (cep.length === 8) {
+        const resultado = `${cep.substr(0, 5)}-${cep.substr(5, 3)}`
+        return resultado
+    };
+}
+
+// Adiciona evento blur. Quando o input do numero do cartão perder o focus, o cep será formatado
+const inputNumeroCartao = document.querySelector('form .card-number');
+inputNumeroCartao.addEventListener('blur', event => {
+    const numeroCartao = inputNumeroCartao.value;
+    if(numeroCartao === '') return;
+
+    const numeroCartaoTratado = tratarnumeroCartao(numeroCartao);
+    numeroCartaoTratado ? inputNumeroCartao.value = numeroCartaoTratado : '';
+}) 
+const tratarnumeroCartao = (numero) => {
+    const numeroCartao = numero;
+    if(numeroCartao.length === 16) {
+        const resultado = `${numeroCartao.substr(0, 4)}.${numeroCartao.substr(4, 4)}.${numeroCartao.substr(8, 4)}.${numeroCartao.substr(12, 4)}`
+        return resultado
+    };
+}
+
+/** Adiciona evento de click no botao voltar para pagina inicial */
+const addBotaoPaginaInicial = document.querySelector('.initial-page button');
+addBotaoPaginaInicial.addEventListener('click', () => {
+    location.href = '/index.html'
+})
