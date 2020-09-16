@@ -142,7 +142,6 @@ const calcularSubTotal = () => {
     const textoBotao = document.createElement('span');
     textoBotao.innerText = 'Confirme seus dados';
 
-
     const totalDoCarrinho = document.createElement('span');
     totalDoCarrinho.classList.add('total-price');
 
@@ -151,17 +150,25 @@ const calcularSubTotal = () => {
     container.append(div);
 }
 
+let inputsPreenchido = 0;
 // Tratando dados informados no formulário
+// Adiciona evento blur. Quando o input do nome completo perder o focus, o nome será formatado
+const inputNomeCompleto = document.querySelector('form .name');
+inputNomeCompleto.addEventListener('blur', () => {
+    if(inputNomeCompleto.value === '') return;
+    formatar(inputNomeCompleto);
+}) 
+
 // Adiciona evento blur. Quando o input do telefone perder o focus, o número será formatado
 const inputTelefone = document.querySelector('form .tel');
 inputTelefone.addEventListener('blur', event => {
     const numero = inputTelefone.value;
 
     if(numero === '') return;
-
     const numeroTratado = tratarTelefone(numero);
     numeroTratado ? inputTelefone.value = numeroTratado : '';
 }) 
+/** Formata o numero do celular */
 const tratarTelefone = (numero) => {
     const tel = numero;
     if(tel.length === 11) {
@@ -179,13 +186,6 @@ const tratarTelefone = (numero) => {
     }
 }
 
-// ---------Terminar de Fazer ---------
-const todaPrimeiraLetraMaiuscula = (nome, caminho) => {
-    const conteudo = document.querySelector(`form ${caminho}`);
-    const nome = conteudo.value;
-    conteudo.value = nome[0].toUpperCase() + nome.slice(1, nome.length);
-}
-
 // Adiciona evento blur. Quando o input do cep perder o focus, o cep será formatado
 const inputCep = document.querySelector('form .cep');
 inputCep.addEventListener('blur', event => {
@@ -195,6 +195,7 @@ inputCep.addEventListener('blur', event => {
     const cepTratado = tratarCep(cep);
     cepTratado ? inputCep.value = cepTratado : '';
 }) 
+/** Formata o número do cep */
 const tratarCep = (numero) => {
     const cep = numero;
     if(cep.length === 9 && cep[6] === '-') {
@@ -206,6 +207,27 @@ const tratarCep = (numero) => {
     };
 }
 
+// Adiciona evento blur. Quando o input do nome do país perder o focus, o nome será formatado
+const inputPais = document.querySelector('form .country');
+inputPais.addEventListener('blur', () => {
+    if(inputPais.value === '') return;
+    formatar(inputPais);
+}) 
+
+// Adiciona evento blur. Quando o input do nome da cidade perder o focus, o nome será formatado
+const inputCity = document.querySelector('form .city');
+inputCity.addEventListener('blur', () => {
+    if(inputCity.value === '') return;
+    formatar(inputCity);
+}) 
+
+// Adiciona evento blur. Quando o input do nome bairro perder o focus, o nome será formatado
+const inputBairro = document.querySelector('form .neighborhood');
+inputBairro.addEventListener('blur', () => {    
+    if(inputBairro.value === '') return;
+    formatar(inputBairro);
+}) 
+
 // Adiciona evento blur. Quando o input do numero do cartão perder o focus, o cep será formatado
 const inputNumeroCartao = document.querySelector('form .card-number');
 inputNumeroCartao.addEventListener('blur', event => {
@@ -215,6 +237,8 @@ inputNumeroCartao.addEventListener('blur', event => {
     const numeroCartaoTratado = tratarnumeroCartao(numeroCartao);
     numeroCartaoTratado ? inputNumeroCartao.value = numeroCartaoTratado : '';
 }) 
+
+/** Formata o número do cartão */
 const tratarnumeroCartao = (numero) => {
     const numeroCartao = numero;
     if(numeroCartao.length === 16) {
@@ -223,8 +247,51 @@ const tratarnumeroCartao = (numero) => {
     };
 }
 
+// Trecho de código que se repete quando se trata de formatação de palavras
+const formatar = (nomeInput) => {
+    const variavel = nomeInput.value;
+    if(variavel === '') return;
+    
+    const variavelTratado = todaPrimeiraLetraMaiuscula(variavel);
+    variavelTratado ? nomeInput.value = variavelTratado : '';
+}
+
+/** Altera toda primeira letra da palavra para maiúsulo */
+const todaPrimeiraLetraMaiuscula = (variavel) => {
+    const nome = variavel.trim();
+    const quebrado = nome.split(' ');
+ 
+    quebrado.forEach((x, i) => {
+        const maiusculo = x[0].toUpperCase();
+        quebrado[i] = quebrado[i].replace(x[0], maiusculo);
+    })    
+    return quebrado.join(' ');
+}
+
 /** Adiciona evento de click no botao voltar para pagina inicial */
 const addBotaoPaginaInicial = document.querySelector('.initial-page button');
 addBotaoPaginaInicial.addEventListener('click', () => {
     location.href = '/index.html'
 })
+
+/** Adiciona evento de blur em todos os inputs */
+const todosInputs = document.querySelectorAll('form input');
+for(x of todosInputs) {
+    x.addEventListener('blur', () => {
+        verificarQtdInputsPreenchido()
+    })
+}
+
+/** Verifica a quantidade de inputs preenchidos */
+const verificarQtdInputsPreenchido = () => {
+    inputsPreenchido = 0;
+    for(x of todosInputs) {
+        if (x.value !== '') inputsPreenchido++
+    }
+
+    if(inputsPreenchido === todosInputs.length) gerarBotaoConfirmarPagamento();
+}
+
+const gerarBotaoConfirmarPagamento = () => {
+    
+}
