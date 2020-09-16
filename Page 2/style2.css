@@ -340,6 +340,15 @@ form .card-name {
     width: 100%;
 }
 
-.confirm-bag:hover {
+.payment-button {
+    display: flex;
+    justify-content: space-between;
+    background-color: #E25EBF;
+    font-weight: bold;
+    margin-top: 24px;
+    padding: 16px;
+}
+
+.payment-button:hover {
     cursor: pointer;
 }

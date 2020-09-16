@@ -57,7 +57,11 @@ const addFilmeNaSacola = (filme) => {
         filmesAdicionadosNaSacola.forEach((item, i) => {
             if (item.id === idFilme) {
                 filmesAdicionadosNaSacola[i].quantidade++
-                atualizarItemNaSacola(filmesAdicionadosNaSacola[i])
+                atualizarItemNaSacola(filmesAdicionadosNaSacola[i]);
+
+                // Verifica se já existe o botao confirmar pagamento, pois se o usuário alterar a quantidade de filme na sacola, o valor no botão será alterado
+                const temBotaoConfirmar = document.querySelector('.bag .payment-button');
+                if(temBotaoConfirmar) calcularValorFinal();                
             }
         })       
     })
@@ -83,12 +87,19 @@ const addFilmeNaSacola = (filme) => {
                         // Caso só exista um filme na sacola, ao ser removido, volta o layout da sacola vazia 
                         document.querySelector('.empty-bag').toggleAttribute('hidden');
                         localStorage.clear();
+                        // Botão confirmar pagamento será excluído
+                        const temBotaoConfirmar = document.querySelector('.bag .payment-button');
+                        if(temBotaoConfirmar) temBotaoConfirmar.remove(); 
                     }
                     // Remove o filme da sacola e da lista de filmes adicionados na sacola
                     filmesDaSacola[i].remove();
                     filmesAdicionadosNaSacola.splice(i, 1);
-                }                
-                atualizarItemNaSacola(filmesAdicionadosNaSacola[i]);                
+                }
+                atualizarItemNaSacola(filmesAdicionadosNaSacola[i]); 
+
+                // Verifica se já existe o botao confirmar pagamento, pois se o usuário alterar a quantidade de filme na sacola, o valor no botão será alterado
+                const temBotaoConfirmar = document.querySelector('.bag .payment-button');
+                if(temBotaoConfirmar) calcularValorFinal(); 
             }
         })       
     })
@@ -117,11 +128,12 @@ const atualizarItemNaSacola = (filme) => {
     totalDoCarrinho(filmesAdicionadosNaSacola);
 }
 
+let subtotal = 0;
 /** Calcula o subtotal em compras do carrinho */
 const totalDoCarrinho = (listaDeFilmeDoCarrinho) => {
+    subtotal = 0;
     const valorSubtotal = document.querySelector('.bag .subtotal .value');
 
-    let subtotal = 0;
     for(filme of filmesAdicionadosNaSacola) {
         subtotal += Number(filme.valor.replace(',', '.')) * filme.quantidade;
     }
@@ -292,6 +304,46 @@ const verificarQtdInputsPreenchido = () => {
     if(inputsPreenchido === todosInputs.length) gerarBotaoConfirmarPagamento();
 }
 
+/** Cria o botão para confirmar o pagamento */
 const gerarBotaoConfirmarPagamento = () => {
-    
+    // Se o usuario deletar todos os filmes antes de preencher os dados, não será gerado o botão para pagamento do valor R$ 0,00
+    if(subtotal === 0) return;
+    // Se o botão ja foi gerado, e por um acaso o usuario deletar um dos dados, e preencher novamente, o botão não será duplicado
+    const jaExisteOBotaoConfirmarPagamento = document.querySelector('.bag .payment-button');
+    if(jaExisteOBotaoConfirmarPagamento) return;
+
+    const container = document.querySelector('.bag .bag-container');
+
+    const div = document.createElement('div');
+    div.classList.add('payment-button');
+
+    const texto = document.createElement('span');
+    texto.innerText = 'Confirmar agora';
+
+    const total = document.createElement('span');
+    total.classList.add('total-price');
+
+    div.append(texto);
+    div.append(total);
+    container.append(div);
+
+    calcularValorFinal()
+
+    div.addEventListener('click', () => {
+        console.log('pagina de pagamento');
+    })
+}
+
+let totalAPagar = 0;
+/** Calcula o valor final da compra. Caso haja um cupom valido, haverá um desconto de 50% */
+const calcularValorFinal = () => {    
+    const conferirInputCupom = document.querySelector('.container-bag-input input');
+    console.log(conferirInputCupom);
+    const textoCupom = conferirInputCupom.value;
+    console.log('valor do cupom abaixo')
+    console.log(textoCupom)
+    totalAPagar = textoCupom === 'HTMLNAOELINGUAGEM' ? totalAPagar = subtotal / 2 : totalAPagar = subtotal;
+
+    const addValorFinal = document.querySelector('.payment-button .total-price');
+    addValorFinal.innerText = `R$ ${totalAPagar}`;
 }
