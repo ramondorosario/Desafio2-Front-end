@@ -94,207 +94,108 @@ input::placeholder {
     margin-right: 71px;
 }
 
-/* Layout banner promocional */
-.banner-promotion {
-    display: flex;
-    color: #0F0915;
-    font-family: 'Quantico', sans-serif;
-    position: relative;
-    width: 100%;
-    margin-right: 71px;
-    margin-bottom: 40px;
-    text-transform: uppercase;
-}
 
-.banner-promotion:hover {
-    cursor: pointer;
-}
 
-.banner-promotion .division {
-    border-left: 1px solid #F294D8;
-    opacity: 0.2;
-    margin: 16px 24px;
-}
 
-.banner-promotion .container {
-    display: flex;
-    align-items: center;
-}
 
-.content-cupom, .content-time {
+
+
+
+
+
+
+
+
+
+
+
+
+/* Form */
+form .inital-information, .address, .payament-information {
+    background-color: #171B1E;
+    margin-top: 16px;
     display: flex;
     flex-direction: column;
-    justify-content: space-around;
+    padding: 33px;
 }
 
-.content-time .time {
-    width: 120px;
-}
-
-.banner-promotion img {
-    margin-right: 10px;
-}
-
-.banner-promotion .icon-cupom {
-    margin-left: -6px;
-}
-
-.banner-promotion .icon-time {
-    width: 35px;
-}
-
-.banner-promotion h2 {
-    font-size: 40px;
-    font-weight: normal;
-}
-
-.banner-promotion h3 {
-    font-size: 24px;
-    font-weight: normal;
-}
-
-.banner-promotion .background {
-    position: relative;
-    min-height: 120px;
-    width: 100%;
-}
-
-.banner-promotion .background-banner {
-    position: absolute;
-    width: 100%;
-    height: 100%;
-}
-
-.banner-promotion .money {
-    position: absolute;
-    display: block;
-    right: 0;
-    bottom: 0;
-    margin-bottom: -14px;
-}
-
-.banner-promotion .adjust-content {
+form .container {
     display: flex;
-    z-index: 1;
-    padding: 16px 24px;
+    flex-wrap: wrap;
 }
 
-/* Layout da grade de filmes */
-/* Layout da sessão Top Filmes */
-.cards {
+form h2 {
+    margin-bottom: 16px;
+    font-size: 32px;
+}
+
+form label {
     display: flex;
-    list-style-type: none;
-    font-weight: bold;
-    width: 100%;
+    flex-direction: column;
+    width: 50%;
+    margin: 16px 0;
 }
 
-.card {
-    margin: 24px 24px 0 0;
-    position: relative;
-    width: 100%;
+form label:last-child {
+    margin-bottom: 0;
 }
 
-.top-films .card{
-    margin-top: 16px;
-}
-
-.card:last-child {
-    margin-right: 0;
-}
-
-.card .poster {
-    display: block;
-    opacity: 0.4;   
-    width: 100%;
-}
-
-.card .icon-star {
-    position: absolute;
-    top: 12px;
-    left: 9px;
-    z-index: 1;
-}
-
-.card .star {
-    display: flex;
-    align-items: center;
-    margin: 0 8px;
-}
-
-.card .name-film {
-    flex-grow: 1;
-}
-
-.card .nota {
-    margin-left: 6px;
+form span {
     font-size: 12px;
 }
 
-.card-footer {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin: 8px;
-    padding: 4px 8px;
-    font-size: 12px;
-    background-color: #A785ED;
-}
-
-.card-footer:hover {
-    cursor: pointer;
-}
-
-.card-footer div {
-    display: block;
-}
-
-.card .texts {
-    position: absolute;
-    width: 100%;
-    bottom: 0;
-}
-
-/* Layout da sessão Filmes */
-.content-films .title {
-    font-size: 24px;
-}
-
-.films .title {
-    margin-top: 40px;
-}
-
-.buttons-genres {
-    display: flex;
-    margin-top: 16px;
-}
-
-.buttons-genres button {
-    width: 100%;
+form input {
     margin-right: 24px;
-    padding: 8px;
-    font-family: 'Open Sans', sans-serif;
-    font-weight: 600;
-    background-color: transparent;
-    border: 2px solid #E5E5E5;
-    color: #E5E5E5;
-    opacity: .8;
-    font-size: 16px;
-    outline: none;
+    padding: 8px 16px;
+    border: none;
+    background-color: #0B1217;
+    color: #FDFDFD;
 }
 
-.buttons-genres .clicked {
-    background: rgba(225, 131, 200, 0.2);
-    border-color: #E183C8;
-    color: #E183C8;
-}
-
-.buttons-genres button {
-    cursor: pointer;
-}
-
-.films button:last-child {
+form label:nth-child(2n) input{
     margin-right: 0;
 }
+
+form input::placeholder {
+    color: #FDFDFD;
+    opacity: 0.4;
+}
+
+form .container input:nth-child() {
+    background-color: red;
+}
+
+form .inital-information {
+    margin-top: 0;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 /* Layout do carrinho */
 .bag {
     background: rgba(0, 0, 0, 0.2);
@@ -311,7 +212,6 @@ input::placeholder {
     display: flex;
     align-items: center;
     justify-content: center;
-    background: linear-gradient(0deg, #A785ED, #A785ED), #C4C4C4;
     padding: 18px 0;
     margin-bottom: 32px;
 }

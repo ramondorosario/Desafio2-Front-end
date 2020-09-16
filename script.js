@@ -341,7 +341,7 @@ const addFilmeNaSacola = (filme) => {
 const atualizarItemNaSacola = (filme) => {
     const filmesNoCarrinho = document.querySelectorAll('.films-bag');
 
-    const posicao = filmesAdicionadosNaSacola.indexOf(filme);    
+    const posicao = filmesAdicionadosNaSacola.indexOf(filme);   
     document.querySelectorAll('.films-bag .amount')[posicao].innerText = filme.quantidade;
     totalDoCarrinho(filmesAdicionadosNaSacola);
 }
@@ -366,7 +366,7 @@ const inserirBotaoConfirmarDados = () => {
     div.classList.add('confirm-bag');
 
     const textoBotao = document.createElement('span');
-    textoBotao.innerText = 'Confirme seus dados'
+    textoBotao.innerText = 'Confirme seus dados';
 
     const totalDoCarrinho = document.createElement('span');
     totalDoCarrinho.classList.add('total-price');
@@ -374,4 +374,20 @@ const inserirBotaoConfirmarDados = () => {
     div.append(textoBotao);
     div.append(totalDoCarrinho);
     container.append(div);
+
+    // Adiciona evento de click no botão confirmar dados e redireciona para pagina de informações
+    const botaoConfirmar = document.querySelector('.bag .confirm-bag');
+    botaoConfirmar.addEventListener('click', () => {
+        // Converte a lista de filmes da sacola em JSON e armazena no localStorage
+        const filmes = JSON.stringify(filmesAdicionadosNaSacola);
+        localStorage.setItem('filmes', filmes);
+        
+        const texto = document.querySelector('.bag .container-bag-input input');
+        const cupom = texto.value;
+        // Verifica se a pessoa informou o cupom de desconto, se sim, armazena no localStorage
+        if (cupom === 'HTMLNAOELINGUAGEM') {
+            localStorage.setItem('cupom', cupom);
+        }
+        location.href = '/Page 2/index2.html';
+    })
 }
