@@ -401,11 +401,18 @@ input::placeholder {
 
 .films-bag .content-add img {
     width: 24px;
+    height: 24px;
     margin: 12px;
+    background-color: #0B1217;
 }
 
 .films-bag .content-add img:hover {
     cursor: pointer;
+    background: linear-gradient(0deg, rgba(107, 107, 107, 0.37), rgba(107, 107, 107, 0.37));
+}
+
+.films-bag .content-add img:focus-visible {
+    background: linear-gradient(0deg, rgba(107, 107, 107, 0.37), rgba(107, 107, 107, 0.37));
 }
 
 /* Layout botão de confirmar pedido do carrinho */
