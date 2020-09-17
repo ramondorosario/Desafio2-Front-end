@@ -1,0 +1,48 @@
+.main {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-grow: 1;
+    margin: 0;
+}
+
+.main .container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background: rgba(0, 0, 0, 0.2);
+    position: relative;
+}
+
+.main .container img {
+    margin-bottom: 28px;
+    margin-top: 82px;
+}
+
+.main .container h2 {
+    margin-bottom: 16px;
+    font-size: 40px;
+    font-weight: normal;
+}
+
+.main .container button {
+    margin: 48px 164px;
+    background-color: #E25EBF;
+    color: #FDFDFD;
+    font-size: 16px;
+    font-weight: bold;
+    font-family: 'Manrope', sans-serif;
+    padding: 16px 127px;
+    border: none;
+    outline: none;
+}
+
+.main .container button:hover {
+    cursor: pointer;
+}
+
+.background-img {
+    position: absolute;
+    right: 50px;
+    bottom: 20px;
+}

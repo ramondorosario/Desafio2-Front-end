@@ -138,13 +138,9 @@ const totalDoCarrinho = (listaDeFilmeDoCarrinho) => {
         subtotal += Number(filme.valor.replace(',', '.')) * filme.quantidade;
     }
     valorSubtotal.innerText = `R$ ${subtotal.toFixed(2)}`;
-
-    const botaoVoltar = document.querySelector('.bag .initial-page');
-    if(subtotal === 0) botaoVoltar.toggleAttribute('hidden');
 }
 //Verifica se existe filmes na sacola e informa o subtotal da compra
 if(filmesAdicionadosNaSacola) totalDoCarrinho(filmesAdicionadosNaSacola);
-else document.querySelector('.bag .initial-page').toggleAttribute('hidden')
 
 /** Insere o botão de confirmar dados para efetuar o pagamento */
 const calcularSubTotal = () => {
@@ -280,12 +276,6 @@ const todaPrimeiraLetraMaiuscula = (variavel) => {
     return quebrado.join(' ');
 }
 
-/** Adiciona evento de click no botao voltar para pagina inicial */
-const addBotaoPaginaInicial = document.querySelector('.initial-page button');
-addBotaoPaginaInicial.addEventListener('click', () => {
-    location.href = '/index.html'
-})
-
 /** Adiciona evento de blur em todos os inputs */
 const todosInputs = document.querySelectorAll('form input');
 for(x of todosInputs) {
@@ -327,23 +317,27 @@ const gerarBotaoConfirmarPagamento = () => {
     div.append(total);
     container.append(div);
 
-    calcularValorFinal()
+    calcularValorFinal();
 
     div.addEventListener('click', () => {
-        console.log('pagina de pagamento');
+        if(inputsPreenchido !== todosInputs.length) alert('[erro]: Todos os dados do formulário devem ser preenchido');
+        location.href = '/page03/index3.html';
     })
 }
+
+/** */
+const inputSacola = document.querySelector('.container-bag-input input');
+inputSacola.addEventListener('blur', () => {
+    calcularValorFinal();
+})
 
 let totalAPagar = 0;
 /** Calcula o valor final da compra. Caso haja um cupom valido, haverá um desconto de 50% */
 const calcularValorFinal = () => {    
     const conferirInputCupom = document.querySelector('.container-bag-input input');
-    console.log(conferirInputCupom);
     const textoCupom = conferirInputCupom.value;
-    console.log('valor do cupom abaixo')
-    console.log(textoCupom)
     totalAPagar = textoCupom === 'HTMLNAOELINGUAGEM' ? totalAPagar = subtotal / 2 : totalAPagar = subtotal;
 
     const addValorFinal = document.querySelector('.payment-button .total-price');
-    addValorFinal.innerText = `R$ ${totalAPagar}`;
+    addValorFinal.innerText = `R$ ${totalAPagar.toFixed(2)}`;
 }

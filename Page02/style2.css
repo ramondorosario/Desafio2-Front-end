@@ -1,0 +1,95 @@
+/* Form */
+form .initial-information, .address, .payament-information {
+    background-color: #171B1E;
+    margin-top: 16px;
+    display: flex;
+    flex-direction: column;
+    padding: 33px;
+}
+
+form .payament-information {
+    padding-bottom: 14px;
+}
+
+form .container {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+form h2 {
+    margin-bottom: 16px;
+    font-size: 32px;
+}
+
+form label {
+    display: flex;
+    flex-direction: column;
+    width: 50%;
+    margin: 16px 0;
+}
+
+form label:last-child {
+    margin-bottom: 0;
+}
+
+form span {
+    font-size: 12px;
+}
+
+form input {
+    margin-right: 24px;
+    padding: 8px 16px;
+    border: none;
+    background-color: #0B1217;
+    color: #FDFDFD;
+}
+
+form label:nth-child(2n) input{
+    margin-right: 0;
+}
+
+form input::placeholder {
+    color: #FDFDFD;
+    opacity: 0.4;
+}
+
+form .inital-information {
+    margin-top: 0;
+}
+
+form .card-name {
+    text-transform: uppercase;
+}
+
+.initial-page button:hover {
+    cursor: pointer;
+}
+
+/* Layout do carrinho */
+.bag-header {
+  background: none;
+}
+
+.bag .subtotal {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 16px;
+}
+
+/* Layout botão de confirmar pedido do carrinho */
+.bag .initial-page {
+    text-align: center;
+}
+
+.payment-button {
+    display: flex;
+    justify-content: space-between;
+    background-color: #E25EBF;
+    font-weight: bold;
+    margin-top: 24px;
+    padding: 16px;
+}
+
+.payment-button:hover {
+    cursor: pointer;
+}
