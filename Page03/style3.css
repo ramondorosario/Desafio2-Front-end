@@ -43,6 +43,6 @@
 
 .background-img {
     position: absolute;
-    right: 50px;
-    bottom: 20px;
+    top: -40px;
+    right: -260px;
 }

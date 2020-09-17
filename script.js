@@ -290,6 +290,10 @@ const addFilmeNaSacola = (filme) => {
     li.id = filme.id; //Adiciona id no container do filme que gostaria de mudar a quantidade na sacola
     // Adiciona o evento de click no icone de adicionar quantidade
     iconeAdicionar.addEventListener('click', () => {
+        //Adiciona background colocar no iconeAdicionar e remove o background do iconeDeletar, caso ele tenha
+        iconeAdicionar.style.background = 'linear-gradient(0deg, rgba(107, 107, 107, 0.37), rgba(107, 107, 107, 0.37))';
+        iconeDeletar.style.removeProperty('background');
+
         const idFilme = Number(li.id)
         filmesAdicionadosNaSacola.forEach((item, i) => {
             if (item.id === idFilme) {
@@ -309,6 +313,10 @@ const addFilmeNaSacola = (filme) => {
 
     // Adiciona o evento de click no icone de deletar, para diminuir a quantidade ou excluir o item da sacola
     iconeDeletar.addEventListener('click', () => {
+        //Adiciona background colocar no iconeDeletar e remove o background do iconeAdicionar, caso ele tenha
+        iconeDeletar.style.background = 'linear-gradient(0deg, rgba(107, 107, 107, 0.37), rgba(107, 107, 107, 0.37))';
+        iconeAdicionar.style.removeProperty('background');
+
         const idFilme = Number(li.id);
 
         filmesAdicionadosNaSacola.forEach((item, i) => {

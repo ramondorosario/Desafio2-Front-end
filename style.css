@@ -37,7 +37,7 @@ body {
 }
 
 .header input {
-    width: 100%;
+    flex-grow: 1;
     background-color: #171B1E;
     padding: 16px 13px;
 }
@@ -79,7 +79,7 @@ input::placeholder {
 
 .header .user img {
     display: block;
-    width: 52px;
+    max-width: 52px;
     margin-left: 8px;
 }
 
@@ -100,6 +100,7 @@ input::placeholder {
     color: #0F0915;
     font-family: 'Quantico', sans-serif;
     position: relative;
+    flex-grow: 1;
     width: 100%;
     margin-right: 71px;
     margin-bottom: 40px;
@@ -408,10 +409,6 @@ input::placeholder {
 
 .films-bag .content-add img:hover {
     cursor: pointer;
-    background: linear-gradient(0deg, rgba(107, 107, 107, 0.37), rgba(107, 107, 107, 0.37));
-}
-
-.films-bag .content-add img:focus-visible {
     background: linear-gradient(0deg, rgba(107, 107, 107, 0.37), rgba(107, 107, 107, 0.37));
 }
 
