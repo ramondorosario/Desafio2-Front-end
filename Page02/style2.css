@@ -39,18 +39,12 @@ form span {
 form input {
     margin-right: 24px;
     padding: 8px 16px;
-    border: none;
+    border: 1px solid transparent;
     background-color: #0B1217;
-    color: #FDFDFD;
 }
 
 form label:nth-child(2n) input{
     margin-right: 0;
-}
-
-form input::placeholder {
-    color: #FDFDFD;
-    opacity: 0.4;
 }
 
 form .inital-information {

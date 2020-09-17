@@ -37,16 +37,14 @@ body {
 }
 
 .header input {
-    background-color: #171B1E;
-    border: none;
-    padding: 16px 13px;
     width: 100%;
-    color: #FDFDFD;
-    opacity: .8;
+    background-color: #171B1E;
+    padding: 16px 13px;
 }
 
 input::placeholder {
     color: #FDFDFD;
+    opacity: .4;
 }
 
 .header .icon-input {
@@ -350,9 +348,6 @@ input::placeholder {
 .bag-footer input {
     width: 100%;
     background-color: #0B1217;
-    padding: 8px 16px;
-    border: none;
-    color: #FDFDFD;
 }
 
 .bag-footer input::placeholder {
@@ -425,4 +420,25 @@ input::placeholder {
 
 .confirm-bag:hover {
     cursor: pointer;
+}
+
+/* Ajustes nos inputs */
+input {
+    padding: 8px 16px;
+    border: 1px solid transparent;
+    color: #FDFDFD;
+}
+
+input:hover {
+    border: 1px solid #8C8C8C;  
+    box-sizing: border-box;
+}
+
+input:focus {
+    outline: none;
+    border-color: #FDFDFD;
+}
+
+input:focus::placeholder {
+    opacity: 0;
 }
