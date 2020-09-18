@@ -243,6 +243,7 @@ input::placeholder {
 
 .card-footer:hover {
     cursor: pointer;
+    background-color: #a885edcc;
 }
 
 .card-footer div {
@@ -275,22 +276,25 @@ input::placeholder {
     padding: 8px;
     font-family: 'Open Sans', sans-serif;
     font-weight: 600;
-    background-color: transparent;
-    border: 2px solid #E5E5E5;
-    color: #E5E5E5;
+    background-color: rgba(225, 131, 200, 0.2); /*background transparente*/
+    border: 2px solid  #E183C8; /*cor da borda anterior #E5E5E5*/
+    color: #E183C8; /*cor da letra anterior #E5E5E5*/
     opacity: .8;
     font-size: 16px;
     outline: none;
 }
 
 .buttons-genres .clicked {
-    background: rgba(225, 131, 200, 0.2);
-    border-color: #E183C8;
-    color: #E183C8;
+    background: transparent; /*rgba(225, 131, 200, 0.2);*/
+    border-color: #A785ED; /*cor da borda anterior #E183C8*/
+    color: #A785ED; /*cor da letra anterior #E183C8*/
 }
 
-.buttons-genres button {
+.buttons-genres button:hover {
     cursor: pointer;
+    background-color: transparent;
+    border-color: #E183C8;
+    color: #E183C8;
 }
 
 .films button:last-child {
@@ -424,6 +428,15 @@ input::placeholder {
 
 .confirm-bag:hover {
     cursor: pointer;
+    background: linear-gradient(0deg, rgba(225, 123, 123, 0.45), rgba(225, 123, 123, 0.45)), #FFB6EB;
+    box-shadow: 0px 16px 24px -12px rgba(226, 94, 191, 0.16);
+}
+
+/* Ver com professor */
+.confirm-bag .teste{
+    /* background-color: linear-gradient(0deg, rgba(225, 123, 123, 0.6), rgba(225, 123, 123, 0.6)), #FFB6EB; */
+    background-color: red;
+    box-shadow: 0px 16px 24px -12px rgba(226, 94, 191, 0.5);
 }
 
 /* Ajustes nos inputs */

@@ -1,3 +1,8 @@
+.main {
+    margin-left:  156px;
+    margin-right: 156px;
+}
+
 /* Form */
 form .initial-information, .address, .payament-information {
     background-color: #171B1E;
@@ -5,6 +10,10 @@ form .initial-information, .address, .payament-information {
     display: flex;
     flex-direction: column;
     padding: 33px;
+}
+
+form .initial-information {
+    margin-top: 0;
 }
 
 form .payament-information {
@@ -51,7 +60,7 @@ form .inital-information {
     margin-top: 0;
 }
 
-form .card-name {
+form .card-name input {
     text-transform: uppercase;
 }
 
@@ -86,4 +95,27 @@ form .card-name {
 
 .payment-button:hover {
     cursor: pointer;
+}
+
+/* Formatação de erro */
+.err {
+    font-size: 8px;
+    color: #EB5757;
+}
+
+.color-err {
+    color: #EB5757;
+}
+
+/* Formatação imagem de fundo */
+.address {
+    position: relative;
+    z-index: 1;
+}
+
+.background-page02 {
+    position: absolute;
+    bottom: -140px;
+    left: -150px;
+    width: 400px
 }

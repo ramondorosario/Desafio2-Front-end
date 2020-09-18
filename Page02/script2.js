@@ -161,14 +161,39 @@ const calcularSubTotal = () => {
 let inputsPreenchido = 0;
 // Tratando dados informados no formulário
 // Adiciona evento blur. Quando o input do nome completo perder o focus, o nome será formatado
-const inputNomeCompleto = document.querySelector('form .name');
+const inputNomeCompleto = document.querySelector('form .name input');
 inputNomeCompleto.addEventListener('blur', () => {
     if(inputNomeCompleto.value === '') return;
     formatar(inputNomeCompleto);
+    limparErro('.name');
 }) 
 
+// Adiciona evento blur. Quando o input email perder o focus, será verificado se o email é valido
+const inputEmail= document.querySelector('form .email input');
+inputEmail.addEventListener('blur', () => {
+    if(inputEmail.value === '') return;
+    verificarEmail(inputEmail.value);
+}) 
+
+const verificarEmail = (email) => {
+    if (!email.includes('@')) {            
+        return imprimirErro('.email');
+    } else if (email.indexOf('.') === -1) {
+        return imprimirErro('.email');
+    } else if (email.includes('@')) {
+        const conteudoPosArroba = email.slice(email.indexOf('0'), -1);
+        if (!email.includes('.')) {
+            return imprimirErro('.email');
+        }
+    }
+    
+    limparErro('.email')
+    return inputEmail.value.trim();
+}
+
+
 // Adiciona evento blur. Quando o input do telefone perder o focus, o número será formatado
-const inputTelefone = document.querySelector('form .tel');
+const inputTelefone = document.querySelector('form .tel input');
 inputTelefone.addEventListener('blur', event => {
     const numero = inputTelefone.value;
 
@@ -178,24 +203,31 @@ inputTelefone.addEventListener('blur', event => {
 }) 
 /** Formata o numero do celular */
 const tratarTelefone = (numero) => {
+    let resultado;
     const tel = numero;
-    if(tel.length === 11) {
-        const resultado = `(${tel.substr(0, 2)}) 9${tel.substr(3, 4)}-${tel.substr(7, 4)}`
-        return resultado
+    if(tel.includes('-')) {
+        const hifenPosicao = tel.slice(-5);
+        if (hifenPosicao[0] === '-' && tel.length === 9) return;
+        return imprimirErro('.tel');        
+    }else if(tel.length === 11) {
+        resultado = `(${tel.substr(0, 2)}) 9${tel.substr(3, 4)}-${tel.substr(7, 4)}`;
     } else if(tel.length === 10) {
-        const resultado = `(${tel.substr(0, 2)}) 9${tel.substr(2, 4)}-${tel.substr(6, 4)}`
-        return resultado
+        resultado = `(${tel.substr(0, 2)}) 9${tel.substr(2, 4)}-${tel.substr(6, 4)}`;
     } else if (tel.length === 9) {
-        const resultado = `${tel.substr(0, 5)}-${tel.substr(5, 4)}`
-        return resultado
+        resultado = `${tel.substr(0, 5)}-${tel.substr(5, 4)}`;
     } else if (tel.length === 8) {
-        const resultado = `${tel.substr(0, 4)}-${tel.substr(4, 4)}`
-        return resultado
+        resultado = `${tel.substr(0, 4)}-${tel.substr(4, 4)}`;
+    } else {
+        imprimirErro('.tel');
+        return;
     }
+
+    limparErro('.tel')
+    return resultado
 }
 
 // Adiciona evento blur. Quando o input do cep perder o focus, o cep será formatado
-const inputCep = document.querySelector('form .cep');
+const inputCep = document.querySelector('form .cep input');
 inputCep.addEventListener('blur', event => {
     const cep = inputCep.value;
     if(cep === '') return;
@@ -205,43 +237,64 @@ inputCep.addEventListener('blur', event => {
 }) 
 /** Formata o número do cep */
 const tratarCep = (numero) => {
+    let resultado;
     const cep = numero;
-    if(cep.length === 9 && cep[6] === '-') {
-        const resultado = cep;
-        return resultado
+    if(cep.length === 9 && cep.indexOf('-') === 5) {
+        resultado = cep;
     } else if (cep.length === 8) {
-        const resultado = `${cep.substr(0, 5)}-${cep.substr(5, 3)}`
-        return resultado
-    };
+        resultado = `${cep.substr(0, 5)}-${cep.substr(5, 3)}`
+    } else {
+        imprimirErro('.cep')
+        return;
+    }
+
+    const erro = document.querySelectorAll('.cep span');
+   
+    limparErro('.cep')
+    return resultado
 }
 
 // Adiciona evento blur. Quando o input do nome do país perder o focus, o nome será formatado
-const inputPais = document.querySelector('form .country');
+const inputPais = document.querySelector('form .country input');
 inputPais.addEventListener('blur', () => {
     if(inputPais.value === '') return;
     formatar(inputPais);
+    limparErro('.country')
 }) 
 
 // Adiciona evento blur. Quando o input do nome da cidade perder o focus, o nome será formatado
-const inputCity = document.querySelector('form .city');
+const inputCity = document.querySelector('form .city input');
 inputCity.addEventListener('blur', () => {
     if(inputCity.value === '') return;
     formatar(inputCity);
+    limparErro('.city');
 }) 
 
 // Adiciona evento blur. Quando o input do nome bairro perder o focus, o nome será formatado
-const inputBairro = document.querySelector('form .neighborhood');
+const inputBairro = document.querySelector('form .neighborhood input');
 inputBairro.addEventListener('blur', () => {    
     if(inputBairro.value === '') return;
     formatar(inputBairro);
+    limparErro('.neighborhood');
+}) 
+
+// Adiciona evento blur no input da casa para fazer a limpeza da formatação do erro caso exista
+const inputNumeroCasa = document.querySelector('form .number-house input');
+inputNumeroCasa.addEventListener('blur', () => {    
+    if(inputNumeroCasa.value === '') return;
+    formatar(inputNumeroCasa);
+    limparErro('.numberHouse');
 }) 
 
 // Adiciona evento blur. Quando o input do numero do cartão perder o focus, o cep será formatado
-const inputNumeroCartao = document.querySelector('form .card-number');
+const inputNumeroCartao = document.querySelector('form .card-number input');
 inputNumeroCartao.addEventListener('blur', event => {
     const numeroCartao = inputNumeroCartao.value;
     if(numeroCartao === '') return;
 
+    if(numeroCartao.length !== 16) return imprimirErro('.card-number')
+
+    limparErro('.card-number');
     const numeroCartaoTratado = tratarnumeroCartao(numeroCartao);
     numeroCartaoTratado ? inputNumeroCartao.value = numeroCartaoTratado : '';
 }) 
@@ -253,6 +306,59 @@ const tratarnumeroCartao = (numero) => {
         const resultado = `${numeroCartao.substr(0, 4)}.${numeroCartao.substr(4, 4)}.${numeroCartao.substr(8, 4)}.${numeroCartao.substr(12, 4)}`
         return resultado
     };
+}
+
+// Adiciona evento blur. Quando o input da data de expiração do cartao perder o focus verificar se foi digitado a quantidade de digitos corretos
+const inputValidadeCartao = document.querySelector('form .expiration-card input');
+inputValidadeCartao.addEventListener('blur', () => {    
+    if(inputValidadeCartao.value === '') return;
+    verificar(inputValidadeCartao.value);
+}) 
+
+const verificar = (conteudo) => {
+    const data = new Date();;
+    const mes = data.getMonth();
+    const ano = data.getFullYear();
+    const quebrado = conteudo.split('/');
+
+    let resultado;
+
+    if (conteudo.length === 7) {
+        if (!isNaN(quebrado[0]) && !isNaN(quebrado[1])) {  
+            if (quebrado[0] >= mes && quebrado[1] >= ano) {
+                limparErro('.expiration-card');
+                return;
+            } else return imprimirErro('.expiration-card'); 
+        }  
+    } else if (conteudo.length === 6) {
+        const parte1 = conteudo.substr(0, 2);
+        const parte2 = conteudo.slice(-4);
+
+        if (!isNaN(parte1) && !isNaN(parte2)) {  
+            if (parte1 >= mes && parte2 >= ano) {
+                resultado = `${conteudo.substr(0, 2)}/${conteudo.substr(2, 4)}`
+            } else {
+                inputValidadeCartao.value = `${conteudo.substr(0, 2)}/${conteudo.substr(2, 4)}`
+                return imprimirErro('.expiration-card'); 
+            }
+        }        
+    } else return imprimirErro('.expiration-card');
+
+    limparErro('.expiration-card');
+    return inputValidadeCartao.value = resultado;
+}
+
+// Adiciona evento blur. Quando o input do cvv perder o focus verifica se foi digitado a quantidade de digitos corretos
+const inputCvv = document.querySelector('form .cvv input');
+inputCvv.addEventListener('blur', () => {    
+    if(inputCvv.value === '') return;
+    verificarCvv(inputCvv.value);
+}) 
+
+const verificarCvv = (numero) => {
+    if(numero.length !== 3 || isNaN(numero)) return imprimirErro('.cvv');   
+    limparErro('.cvv');
+    verificarInputVazio();
 }
 
 // Trecho de código que se repete quando se trata de formatação de palavras
@@ -321,11 +427,12 @@ const gerarBotaoConfirmarPagamento = () => {
 
     div.addEventListener('click', () => {
         if(inputsPreenchido !== todosInputs.length) alert('[erro]: Todos os dados do formulário devem ser preenchido');
+        localStorage.clear();
         location.href = '/page03/index3.html';
     })
 }
 
-/** */
+/* Adiciona evento de blur no input da sacola, para quando o usuario clicar ou digitar algum cupom, recalcular o total da compra */
 const inputSacola = document.querySelector('.container-bag-input input');
 inputSacola.addEventListener('blur', () => {
     calcularValorFinal();
@@ -341,3 +448,34 @@ const calcularValorFinal = () => {
     const addValorFinal = document.querySelector('.payment-button .total-price');
     addValorFinal.innerText = `R$ ${totalAPagar.toFixed(2)}`;
 }
+
+/** Imprime o erro no formulário */
+const imprimirErro = (caminho) => {
+    const erro = document.querySelectorAll(`${caminho} span`);
+    erro[0].classList.add('color-err');
+    if (erro[1].hasAttribute('hidden')) erro[1].removeAttribute('hidden');
+}
+
+/** Limpa a formatação de erro do formulário */
+const limparErro = (caminho) => {
+    const erro = document.querySelectorAll(`${caminho} span`);
+    if(erro) {
+        erro[0].classList.remove('color-err');
+        erro[1].setAttribute('hidden', '');
+    }
+}
+
+const verificarInputVazio = () => {
+    const todosOsLabel = document.querySelectorAll('form label')
+
+    todosOsLabel.forEach((x, i) => {
+        const input = document.querySelectorAll('form input')[i];
+        if(input.value === '') {
+            const label = document.querySelectorAll('form label')[i];
+            const span = label.querySelectorAll('span');
+            span[0].classList.add('color-err');
+            if (span[1].hasAttribute('hidden')) span[1].removeAttribute('hidden');
+        }
+    })
+}
+ 

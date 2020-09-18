@@ -40,63 +40,76 @@
                 <div class="initial-information">
                     <h2>Informações iniciais</h2>
                     <div class="container">
-                        <label>
+                        <label class="name">
                             <span>Informe seu nome completo</span>
-                            <input type="text" class="name" placeholder="Ex: Fulano da Silva">
+                            <input type="text" placeholder="Ex: Fulano da Silva">
+                            <span class="err" hidden>ERROR MENSAGE</span>
                         </label>
-                        <label>
+                        <label class="email">
                             <span>Insira seu email</span>
                             <input type="email" placeholder="Ex: fulaninho@gmail.com">
+                            <span class="err" hidden>ERROR MENSAGE</span>
                         </label>
-                        <label>
+                        <label class="tel">
                             <span>Telefone</span>
-                            <input type="tel" class="tel" placeholder="+55 (71) 9 9999-9999">
+                            <input type="tel" placeholder="+55 (71) 9 9999-9999">
+                            <span class="err" hidden>ERROR MENSAGE</span>
                         </label>
                     </div>
                 </div>
                 <div class="address">
                     <h2>Informações de endereço</h2>
                     <div class="container">
-                        <label>
+                        <label class="cep">
                             <span>CEP</span> 
-                            <input inputmode="numeric" class="cep" placeholder="Ex: 00000-000">
+                            <input inputmode="numeric" placeholder="Ex: 00000-000">
+                            <span class="err" hidden>ERROR MENSAGE</span>
                         </label>
-                        <label>
+                        <label class="country">
                             <span>País</span> 
-                            <input type="text" class="country" placeholder="Ex: Brasil">
+                            <input type="text" placeholder="Ex: Brasil">
+                            <span class="err" hidden>ERROR MENSAGE</span>
                         </label>
-                        <label>
+                        <label class="city">
                             <span>Cidade</span> 
-                            <input type="text" class="city" placeholder="Ex: Salvador">
+                            <input type="text" placeholder="Ex: Salvador">
+                            <span class="err" hidden>ERROR MENSAGE</span>
                         </label>
-                        <label>
+                        <label class="neighborhood">
                             <span>Bairro</span> 
-                            <input type="text" class="neighborhood" placeholder="Ex: Graça">
+                            <input type="text" placeholder="Ex: Graça">
+                            <span class="err" hidden>ERROR MENSAGE</span>
                         </label>
-                        <label>
+                        <label class="number-house">
                             <span>Numero</span> 
                             <input inputmode="numeric" placeholder="Ex: 00">
+                            <span class="err" hidden>ERROR MENSAGE</span>
                         </label>
                     </div>                    
                 </div>
+                <img src="/images/bag/Social Media.svg" class="background-page02" alt="Imagem de fundo">
                 <div class="payament-information">
-                    <h2>Informações de endereço</h2>
+                    <h2>Informações de pagamento</h2>
                     <div class="container">
-                        <label>
+                        <label class="card-number">
                             <span>Numero do cartão</span> 
-                            <input inputmode="numeric" class="card-number" placeholder="Ex: 0000 0000 0000 0000">
+                            <input inputmode="numeric" placeholder="Ex: 0000 0000 0000 0000">
+                            <span class="err" hidden>ERROR MENSAGE</span>
                         </label>
-                        <label>
+                        <label class="card-name">
                             <span>Nome do cartão</span> 
-                            <input type="text" class="card-name" placeholder="Ex: FULANO DA SILVA">
+                            <input type="text" placeholder="Ex: FULANO DA SILVA">
+                            <span class="err" hidden>ERROR MENSAGE</span>
                         </label>
-                        <label>
+                        <label class="expiration-card">
                             <span>Data de expiração</span> 
-                            <input type="datetime" placeholder="MM/YYYY">
+                            <input type="numeric" placeholder="MM/YYYY">
+                            <span class="err" hidden>ERROR MENSAGE</span>
                         </label>
-                        <label>
+                        <label class="cvv">
                             <span>CVV</span>
                             <input inputmode="numeric" placeholder="000">
+                            <span class="err" hidden>ERROR MENSAGE</span>
                         </label>
                     </div>                    
                 </div>     

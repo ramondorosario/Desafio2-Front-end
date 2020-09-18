@@ -1,8 +1,8 @@
 /** Temporizador do cupom promocional */
 const esconderBanner = document.querySelector('.hidden');
 const tempo = document.querySelector('.content-time .time');
-let segundos = Number(tempo.innerText.split(':')[2]);
-let minutos = Number(tempo.innerText.split(':')[1]);
+let minutos = 5;
+let segundos = 0;
 
 const temporizador = () => {
     if (minutos > 0 && segundos >= 0) {
@@ -383,18 +383,18 @@ const inserirBotaoConfirmarDados = () => {
     div.append(totalDoCarrinho);
     container.append(div);
 
-    // Adiciona evento de click no botão confirmar dados e redireciona para pagina de informações
     const botaoConfirmar = document.querySelector('.bag .confirm-bag');
+   // Adiciona evento de click no botão confirmar dados e redireciona para pagina de informações
     botaoConfirmar.addEventListener('click', () => {
         // Converte a lista de filmes da sacola em JSON e armazena no localStorage
         const filmes = JSON.stringify(filmesAdicionadosNaSacola);
         localStorage.setItem('filmes', filmes);
         
         const texto = document.querySelector('.bag .container-bag-input input');
-        const cupom = texto.value;
+        const cupomInserido = texto.value;
         // Verifica se a pessoa informou o cupom de desconto, se sim, armazena no localStorage
-        if (cupom === 'HTMLNAOELINGUAGEM') {
-            localStorage.setItem('cupom', cupom);
+        if (cupomInserido === 'HTMLNAOELINGUAGEM') {
+            localStorage.setItem('cupom', cupomInserido);
         }
         location.href = '/Page02/index2.html';
     })
