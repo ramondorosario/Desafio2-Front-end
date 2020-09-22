@@ -47,7 +47,7 @@ const addFilmeNaSacola = (filme) => {
     conteudoAdicionar.classList.add('content-add');
 
     const iconeAdicionar = document.createElement('img');
-    iconeAdicionar.setAttribute('src', '/images/bag/add.png');
+    iconeAdicionar.setAttribute('src', '../images/bag/add.png');
     iconeAdicionar.classList.add('add');
 
     li.id = filme.id; //Adiciona id no container do filme que gostaria de mudar a quantidade na sacola
@@ -71,7 +71,7 @@ const addFilmeNaSacola = (filme) => {
     quantidadeFilme.innerText = filme.quantidade;
 
     const iconeDeletar = document.createElement('img');
-    iconeDeletar.setAttribute('src', '/images/bag/delete.png');
+    iconeDeletar.setAttribute('src', '../images/bag/delete.png');
     iconeDeletar.classList.add('delete');
 
     // Adiciona o evento de click no icone de deletar, para diminuir a quantidade ou excluir o item da sacola
@@ -428,7 +428,7 @@ const gerarBotaoConfirmarPagamento = () => {
     div.addEventListener('click', () => {
         if(inputsPreenchido !== todosInputs.length) alert('[erro]: Todos os dados do formulário devem ser preenchido');
         localStorage.clear();
-        location.href = '/page03/index3.html';
+        location.href = '../Page03/index3.html';
     })
 }
 

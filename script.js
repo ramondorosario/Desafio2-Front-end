@@ -396,6 +396,6 @@ const inserirBotaoConfirmarDados = () => {
         if (cupomInserido === 'HTMLNAOELINGUAGEM') {
             localStorage.setItem('cupom', cupomInserido);
         }
-        location.href = '/Page02/index2.html';
+        location.href = './Page02/index2.html';
     })
 }
