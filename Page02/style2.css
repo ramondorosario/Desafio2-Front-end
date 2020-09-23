@@ -95,6 +95,8 @@ form .card-name input {
 
 .payment-button:hover {
     cursor: pointer;
+    background: linear-gradient(0deg, rgba(225, 123, 123, 0.45), rgba(225, 123, 123, 0.45)), #FFB6EB;
+    box-shadow: 0px 16px 24px -12px rgba(226, 94, 191, 0.16);
 }
 
 /* Formatação de erro */
