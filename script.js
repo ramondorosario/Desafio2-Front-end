@@ -129,7 +129,7 @@ const criarListaFilmesPopulares = (lista, listaDestino) => {
     }
 }
 
-/** Cria e implementa os cards no site*/ 
+/** Cria e imprime os cards na página */
 const criarCards = (lista, caminho) => { // caminho é o container onde quer inserir os cards
     const container = document.querySelector(caminho);
     const linhas = (lista.length / 5) === 0 ? 1 : Math.floor(lista.length / 5);
@@ -149,67 +149,32 @@ const criarCards = (lista, caminho) => { // caminho é o container onde quer ins
 
     for(item of lista) {     
         if (quebra % 5 === 0 && quebra != 0) ulPosicao++ 
-
         const li = document.createElement('li');
         li.classList.add('card');
 
         ulsCriadas[ulPosicao].append(li);
-    
-        const imgPoster = document.createElement('img');
-        imgPoster.setAttribute('src', item.urlPoster);
-        imgPoster.classList.add('poster')
-    
-        const imgIcon = document.createElement('img');
-        imgIcon.setAttribute('src', 'images/cards/Star 2.png');
-        imgIcon.classList.add('icon-star')
-    
-        const divPai = document.createElement('div');
-        divPai.classList.add('texts');
 
-        li.append(imgPoster);
-        li.append(imgIcon);
-        li.append(divPai);
-    
-        const divFilho1 = document.createElement('div');
-        divFilho1.classList.add('star');
-        
-        divPai.append(divFilho1);
-        
-        const nomeFilme = document.createElement('span');
-        nomeFilme.classList.add('name-film');
-        nomeFilme.innerText = item.nomeFilme;
-    
-        const iconeEstrelaNota = document.createElement('img');
-        iconeEstrelaNota.setAttribute('src','images/cards/Star 1.svg');
-    
-        const notaFilme = document.createElement('span');
-        notaFilme.classList.add('nota');
-        notaFilme.innerText = item.nota;   
+        li.innerHTML = `
+        <img src="${item.urlPoster}"  class="poster" alt="">
+        <img src="images/cards/Star 2.png" class="icon-star" alt="estrela">
+        <div class="texts">
+            <div class="star">
+                <span class="name-film">${item.nomeFilme}</span>
+                <img src="images/cards/Star 1.svg" alt="estrela">
+                <span class="nota">${item.nota}</span>
+            </div>
+            <div class="card-footer" id="id${item.id}">
+                <div>Sacola</div>
+                <div>R$ ${item.valor}</div>
+            </div>
+        </div>
+        `
 
-        divFilho1.append(nomeFilme);
-        divFilho1.append(iconeEstrelaNota);
-        divFilho1.append(notaFilme);
-        
-        const divFilho2 = document.createElement('div');
-        divFilho2.classList.add('card-footer');
-        
-        divFilho2.id = item.id;
+        const divFilho2 = document.querySelector(`${caminho} .card #id${item.id}`);
+        const id = divFilho2.id.slice(2);
         divFilho2.addEventListener('click', () => {
-            encontrarFilme(divFilho2.id);
+            encontrarFilme(id);
         })
-        
-        divPai.append(divFilho2);
-    
-        const addSacola = document.createElement('div');
-        addSacola.innerText = 'Sacola'
-    
-        const precoFilme = document.createElement('div');
-        const valor = `R$ ${item.valor}`
-        precoFilme.innerText = valor;
-
-        divFilho2.append(addSacola);
-        divFilho2.append(precoFilme);
-
         quebra++
     }
 }
@@ -243,7 +208,7 @@ const encontrarFilme = (id) => {
     const temBotao = document.querySelector('.confirm-bag');
     if(temBotao === null) inserirBotaoConfirmarDados();
 
-    totalDoCarrinho(filmesAdicionadosNaSacola);
+    totalDoCarrinho();
 }
 
 /** Adiciona o filme que o usuario gostaria de add na sacola */
@@ -256,45 +221,29 @@ const addFilmeNaSacola = (filme) => {
     const li = document.createElement('li');
     itemSacola.append(li);
 
-    const conteudoSobreFilme = document.createElement('div');
-    conteudoSobreFilme.classList.add('films-bag-content');
+    li.innerHTML = `
+    <div class="films-bag-content">
+        <img src="${filme.urlPoster}" class="little-poster" alt="">
+        <div class="name-price">
+            <span>${filme.nomeFilme}</span>
+            <span>R$ ${Number(filme.valor.replace(',', '.')).toFixed(2)}</span>
+        </div>
+    </div>
+    <div class="content-add" id="id${filme.id}">
+        <img src="images/bag/add.png" class="add" alt="">
+        <span class="amount">1</span>
+        <img src="images/bag/delete.png" class="delete" alt="">
+    </div>
+    `
 
-    const minePoster = document.createElement('img');
-    minePoster.setAttribute('src', filme.urlPoster);
-    minePoster.classList.add('little-poster');
-
-    conteudoSobreFilme.append(minePoster);        
-    li.append(conteudoSobreFilme);
-
-    const containerNomePreco = document.createElement('div');
-    containerNomePreco.classList.add('name-price');
-
-    const nomeFilme = document.createElement('span');
-    nomeFilme.innerText = filme.nomeFilme;
-    
-    const precoFilme = document.createElement('span');
-    precoFilme.innerText = `R$ ${Number(filme.valor.replace(',', '.')).toFixed(2)}`;
-
-    containerNomePreco.append(nomeFilme);
-    containerNomePreco.append(precoFilme);
-
-    conteudoSobreFilme.append(containerNomePreco);
-
-    const conteudoAdicionar = document.createElement('div');
-    conteudoAdicionar.classList.add('content-add');
-
-    const iconeAdicionar = document.createElement('img');
-    iconeAdicionar.setAttribute('src', 'images/bag/add.png');
-    iconeAdicionar.classList.add('add');
-
-    li.id = filme.id; //Adiciona id no container do filme que gostaria de mudar a quantidade na sacola
+    const iconeAdicionar = document.querySelector(`.films-bag #id${filme.id} .add`);
     // Adiciona o evento de click no icone de adicionar quantidade
     iconeAdicionar.addEventListener('click', () => {
-        //Adiciona background colocar no iconeAdicionar e remove o background do iconeDeletar, caso ele tenha
+        //Adiciona background color no iconeAdicionar e remove o background do iconeDeletar, caso ele tenha
         iconeAdicionar.style.background = 'linear-gradient(0deg, rgba(107, 107, 107, 0.37), rgba(107, 107, 107, 0.37))';
         iconeDeletar.style.removeProperty('background');
 
-        const idFilme = Number(li.id)
+        const idFilme = filme.id;
         filmesAdicionadosNaSacola.forEach((item, i) => {
             if (item.id === idFilme) {
                 filmesAdicionadosNaSacola[i].quantidade++
@@ -303,13 +252,7 @@ const addFilmeNaSacola = (filme) => {
         })       
     })
 
-    const quantidadeFilme = document.createElement('span');
-    quantidadeFilme.classList.add('amount');
-    quantidadeFilme.innerText = 1;
-
-    const iconeDeletar = document.createElement('img');
-    iconeDeletar.setAttribute('src', 'images/bag/delete.png');
-    iconeDeletar.classList.add('delete');
+    const iconeDeletar = document.querySelector(`.films-bag #id${filme.id} .delete`);
 
     // Adiciona o evento de click no icone de deletar, para diminuir a quantidade ou excluir o item da sacola
     iconeDeletar.addEventListener('click', () => {
@@ -317,8 +260,7 @@ const addFilmeNaSacola = (filme) => {
         iconeDeletar.style.background = 'linear-gradient(0deg, rgba(107, 107, 107, 0.37), rgba(107, 107, 107, 0.37))';
         iconeAdicionar.style.removeProperty('background');
 
-        const idFilme = Number(li.id);
-
+        const idFilme = filme.id;
         filmesAdicionadosNaSacola.forEach((item, i) => {
             if (item.id === idFilme) {
                 filmesAdicionadosNaSacola[i].quantidade--
@@ -337,33 +279,25 @@ const addFilmeNaSacola = (filme) => {
             }
         })       
     })
-    
-    conteudoAdicionar.append(iconeAdicionar);
-    conteudoAdicionar.append(quantidadeFilme);
-    conteudoAdicionar.append(iconeDeletar);
-
-    li.append(conteudoAdicionar);
 }
 
 /** Atualiza a quantidade de um filme em específico */
 const atualizarItemNaSacola = (filme) => {
-    const filmesNoCarrinho = document.querySelectorAll('.films-bag');
-
     const posicao = filmesAdicionadosNaSacola.indexOf(filme);   
-    document.querySelectorAll('.films-bag .amount')[posicao].innerText = filme.quantidade;
-    totalDoCarrinho(filmesAdicionadosNaSacola);
+    if(posicao !== -1) document.querySelectorAll('.films-bag .amount')[posicao].innerText = filme.quantidade;
+    totalDoCarrinho();
 }
 
 /** Calcula o total em compras do carrinho */
-const totalDoCarrinho = (listaDeFilmeDoCarrinho) => {
+const totalDoCarrinho = () => {
     const addTotalDoCarrinho = document.querySelector('.confirm-bag .total-price');
     
     let total = 0;
     for(filme of filmesAdicionadosNaSacola) {
         total += Number(filme.valor.replace(',', '.')) * filme.quantidade;
     }
-
-    addTotalDoCarrinho.innerText = `R$ ${total.toFixed(2)}`
+    
+    if(total) addTotalDoCarrinho.innerText = `R$ ${total.toFixed(2)}`
 }
 
 /** Insere o botão de confirmar dados para efetuar o pagamento */
