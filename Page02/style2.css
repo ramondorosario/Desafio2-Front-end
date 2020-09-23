@@ -111,13 +111,14 @@ form .card-name input {
 
 /* Formatação imagem de fundo */
 .address {
+    display: flex;
     position: relative;
-    z-index: 1;
 }
 
 .background-page02 {
     position: absolute;
-    bottom: -140px;
-    left: -150px;
-    width: 400px
+    width: 400px;
+    left: -300px;
+    bottom: -50px;
+    z-index: -1;
 }
