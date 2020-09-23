@@ -29,7 +29,7 @@ const addFilmeNaSacola = (filme) => {
     </div>
     <div class="content-add" id="id${filme.id}">
         <img src="../images/bag/add.png" class="add" alt="">
-        <span class="amount">1</span>
+        <span class="amount">${filme.quantidade}</span>
         <img src="../images/bag/delete.png" class="delete" alt="">
     </div>
     `
@@ -396,7 +396,9 @@ const gerarBotaoConfirmarPagamento = () => {
     calcularValorFinal();
 
     div.addEventListener('click', () => {
-        if(inputsPreenchido !== todosInputs.length) alert('[erro]: Todos os dados do formulário devem ser preenchido');
+        const condicao = verificarInputVazio();
+        if(condicao) return;
+
         localStorage.clear();
         location.href = '../Page03/index3.html';
     })
@@ -438,15 +440,21 @@ const limparErro = (caminho) => {
 
 const verificarInputVazio = () => {
     const todosOsLabel = document.querySelectorAll('form label')
+    let temInputVazio = false;
 
     todosOsLabel.forEach((x, i) => {
         const input = document.querySelectorAll('form input')[i];
         if(input.value === '') {
+            temInputVazio = true;
             const label = document.querySelectorAll('form label')[i];
             const span = label.querySelectorAll('span');
             span[0].classList.add('color-err');
             if (span[1].hasAttribute('hidden')) span[1].removeAttribute('hidden');
         }
     })
+    if(temInputVazio) {
+        alert('[erro]: Todos os campos do formulário devem ser preenchido');
+        return true;
+    }
 }
  
