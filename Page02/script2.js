@@ -305,7 +305,7 @@ const verificar = (conteudo) => {
         const parte2 = conteudo.slice(-4);
 
         if (!isNaN(parte1) && !isNaN(parte2)) {  
-            if ((parte1 >= mes && parte2 >= ano) || (parte1 < mes && parte2 > ano)) {
+            if ((parte1 >= mes + 1 && parte2 >= ano) || (parte1 < mes + 1 && parte2 > ano)) {
                 resultado = `${conteudo.substr(0, 2)}/${conteudo.substr(2, 4)}`
             } else {
                 inputValidadeCartao.value = `${conteudo.substr(0, 2)}/${conteudo.substr(2, 4)}`
