@@ -9,7 +9,7 @@ if (cupom === 'HTMLNAOELINGUAGEM') {
     inputCupom.value = cupom;
 }
 
-/** Adiciona os filmes que foram adicionados na sacola */ 
+/** Readiciona os filmes que foram adicionados na sacola */ 
 const addFilmeNaSacola = (filme) => {
     const conteudoSacolaVazia = document.querySelector('.bag .empty-bag');
     conteudoSacolaVazia.setAttribute('hidden', '');
@@ -45,7 +45,8 @@ const addFilmeNaSacola = (filme) => {
         filmesAdicionadosNaSacola.forEach((item, i) => {
             if (item.id === idFilme) {
                 filmesAdicionadosNaSacola[i].quantidade++
-                atualizarItemNaSacola(filmesAdicionadosNaSacola[i])
+                atualizarItemNaSacola(filmesAdicionadosNaSacola[i]);
+                calcularValorFinal();
             }
         })       
     })
@@ -68,12 +69,15 @@ const addFilmeNaSacola = (filme) => {
                         // Caso só exista um filme na sacola, ao ser removido, volta o layout da sacola vazia 
                         document.querySelector('.empty-bag').toggleAttribute('hidden');
                         document.querySelector('.films-bag li').remove();
+                        document.querySelector('.payment-button').remove();
+                        localStorage.clear();
                     }
                     // Remove o filme da sacola e da lista de filmes adicionados na sacola
                     filmesDaSacola[i].remove();
                     filmesAdicionadosNaSacola.splice(i, 1);
                 }                
-                atualizarItemNaSacola(filmesAdicionadosNaSacola[i]);                
+                atualizarItemNaSacola(filmesAdicionadosNaSacola[i]);             
+                calcularValorFinal();   
             }
         })       
     })
@@ -174,7 +178,7 @@ const tratarTelefone = (numero) => {
     const tel = numero;
     if(tel.includes('-')) {
         const hifenPosicao = tel.slice(-5);
-        if (hifenPosicao[0] === '-' && tel.length === 9) return;
+        if (hifenPosicao[0] === '-' && (tel.length === 9 || tel.length === 10 || tel.length === 15)) return;
         return imprimirErro('.tel');        
     }else if(tel.length === 11) {
         resultado = `(${tel.substr(0, 2)}) 9${tel.substr(3, 4)}-${tel.substr(7, 4)}`;
@@ -249,8 +253,7 @@ inputBairro.addEventListener('blur', () => {
 const inputNumeroCasa = document.querySelector('form .number-house input');
 inputNumeroCasa.addEventListener('blur', () => {    
     if(inputNumeroCasa.value === '') return;
-    formatar(inputNumeroCasa);
-    limparErro('.numberHouse');
+    limparErro('.number-house');
 }) 
 
 // Adiciona evento blur. Quando o input do numero do cartão perder o focus, o cep será formatado
@@ -292,7 +295,7 @@ const verificar = (conteudo) => {
 
     if (conteudo.length === 7) {
         if (!isNaN(quebrado[0]) && !isNaN(quebrado[1])) {  
-            if (quebrado[0] >= mes + 1 && quebrado[1] >= ano) {
+            if ((quebrado[0] >= mes + 1 && quebrado[1] >= ano) || (quebrado[0] < mes + 1 && quebrado[1] > ano)) {
                 limparErro('.expiration-card');
                 return;
             } else return imprimirErro('.expiration-card'); 
@@ -302,7 +305,7 @@ const verificar = (conteudo) => {
         const parte2 = conteudo.slice(-4);
 
         if (!isNaN(parte1) && !isNaN(parte2)) {  
-            if (parte1 >= mes && parte2 >= ano) {
+            if ((parte1 >= mes && parte2 >= ano) || (parte1 < mes && parte2 > ano)) {
                 resultado = `${conteudo.substr(0, 2)}/${conteudo.substr(2, 4)}`
             } else {
                 inputValidadeCartao.value = `${conteudo.substr(0, 2)}/${conteudo.substr(2, 4)}`
@@ -412,8 +415,9 @@ const calcularValorFinal = () => {
     const textoCupom = conferirInputCupom.value;
     totalAPagar = textoCupom === 'HTMLNAOELINGUAGEM' ? totalAPagar = subtotal / 2 : totalAPagar = subtotal;
 
+    const temBotao = document.querySelector('.payment-button');
     const addValorFinal = document.querySelector('.payment-button .total-price');
-    addValorFinal.innerText = `R$ ${totalAPagar.toFixed(2)}`;
+    if (subtotal !== 0 && temBotao) addValorFinal.innerText = `R$ ${totalAPagar.toFixed(2)}`;
 }
 
 /** Imprime o erro no formulário */
