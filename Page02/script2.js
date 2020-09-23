@@ -69,7 +69,9 @@ const addFilmeNaSacola = (filme) => {
                         // Caso só exista um filme na sacola, ao ser removido, volta o layout da sacola vazia 
                         document.querySelector('.empty-bag').toggleAttribute('hidden');
                         document.querySelector('.films-bag li').remove();
-                        document.querySelector('.payment-button').remove();
+
+                        const temBotao = document.querySelector('.payment-button'); 
+                        if(temBotao) temBotao.remove();
                         localStorage.clear();
                     }
                     // Remove o filme da sacola e da lista de filmes adicionados na sacola
