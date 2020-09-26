@@ -15,7 +15,7 @@ body {
 
 /* Layout Cabeçalho */
 .header {
-    padding: 0 80px;
+    /* padding: 0 80px; */
     background-color: #0F1C26;
     display: flex;
     justify-content: center;
@@ -25,7 +25,8 @@ body {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    flex-grow: 1;
+    max-width: 1278px;
+    width: 100%;
 }
 
 .center .container {
@@ -77,6 +78,10 @@ input::placeholder {
     margin-right: 10px;
 }
 
+.header li img:last-child {
+    margin-right: 0;
+}
+
 .header .user img {
     display: block;
     max-width: 52px;
@@ -86,8 +91,15 @@ input::placeholder {
 /* Layout conteudo principal */
 .main {
     display: flex;
+    justify-content: center;
+}
+
+.main-center {
+    display: flex;
+    justify-content: space-between;
     align-items: flex-start;
-    margin: 24px 24px 24px 100px;
+    margin: 24px 24px 24px 60px;
+    max-width: 1278px;
 }
 
 .container-main {
@@ -407,12 +419,12 @@ input::placeholder {
 
 .films-bag .content-add img {
     width: 24px;
-    height: 24px;
+    height: 26px;
     margin: 12px;
     background-color: #0B1217;
 }
 
-.films-bag .content-add img:hover {
+.films-bag .content-add img:hover, #new-delete:hover {
     cursor: pointer;
     background: linear-gradient(0deg, rgba(107, 107, 107, 0.37), rgba(107, 107, 107, 0.37));
 }

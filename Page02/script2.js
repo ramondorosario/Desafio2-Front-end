@@ -11,6 +11,7 @@ if (cupom === 'HTMLNAOELINGUAGEM') {
 
 /** Readiciona os filmes que foram adicionados na sacola */ 
 const addFilmeNaSacola = (filme) => {
+
     const conteudoSacolaVazia = document.querySelector('.bag .empty-bag');
     conteudoSacolaVazia.setAttribute('hidden', '');
 
@@ -45,6 +46,10 @@ const addFilmeNaSacola = (filme) => {
         filmesAdicionadosNaSacola.forEach((item, i) => {
             if (item.id === idFilme) {
                 filmesAdicionadosNaSacola[i].quantidade++
+                if(filmesAdicionadosNaSacola[i].quantidade > 1) {
+                    const iconeDeletar = document.querySelector(`.films-bag #id${filme.id} .delete`);
+                    iconeDeletar.setAttribute('src', '../images/bag/menos.png');
+                }
                 atualizarItemNaSacola(filmesAdicionadosNaSacola[i]);
                 calcularValorFinal();
             }
@@ -52,6 +57,10 @@ const addFilmeNaSacola = (filme) => {
     })
 
     const iconeDeletar = document.querySelector(`.films-bag #id${filme.id} .delete`);
+    if(filme.quantidade > 1) {
+        const iconeDeletar = document.querySelector(`.films-bag #id${filme.id} .delete`);
+        iconeDeletar.setAttribute('src', '../images/bag/menos.png');
+    }
 
     // Adiciona o evento de click no icone de deletar, para diminuir a quantidade ou excluir o item da sacola
     iconeDeletar.addEventListener('click', () => {
@@ -59,10 +68,14 @@ const addFilmeNaSacola = (filme) => {
         iconeDeletar.style.background = 'linear-gradient(0deg, rgba(107, 107, 107, 0.37), rgba(107, 107, 107, 0.37))';
         iconeAdicionar.style.removeProperty('background');
 
+        
         const idFilme = filme.id;
         filmesAdicionadosNaSacola.forEach((item, i) => {
             if (item.id === idFilme) {
-                filmesAdicionadosNaSacola[i].quantidade--
+                filmesAdicionadosNaSacola[i].quantidade--    
+                if (filmesAdicionadosNaSacola[i].quantidade === 1) {
+                    iconeDeletar.setAttribute('src', '../images/bag/delete.png');
+                } 
                 if (filmesAdicionadosNaSacola[i].quantidade === 0) {
                     const filmesDaSacola = document.querySelectorAll('.films-bag li');
                     if(filmesDaSacola.length === 1) {
@@ -105,31 +118,23 @@ let subtotal = 0;
 /** Calcula o subtotal em compras do carrinho */
 const totalDoCarrinho = () => {
     subtotal = 0;
+    const inputCupom = document.querySelector('.bag-container input');
     const valorSubtotal = document.querySelector('.bag .subtotal .value');
-
+    
     for(filme of filmesAdicionadosNaSacola) {
         subtotal += Number(filme.valor.replace(',', '.')) * filme.quantidade;
     }
-    valorSubtotal.innerText = `R$ ${subtotal.toFixed(2)}`;
+
+    valorSubtotal.innerText = inputCupom.value === 'HTMLNAOELINGUAGEM' ? `R$ ${(subtotal / 2).toFixed(2)}` : `R$ ${subtotal.toFixed(2)}`
 }
+
+const inputCupom = document.querySelector('.bag-container input');
+inputCupom.addEventListener('blur', () => {
+    totalDoCarrinho();
+})
+
 //Verifica se existe filmes na sacola e informa o subtotal da compra
 if(filmesAdicionadosNaSacola) totalDoCarrinho();
-
-/** Insere o botão de confirmar dados para efetuar o pagamento */
-const calcularSubTotal = () => {
-    const div = document.createElement('div');
-    div.classList.add('confirm-bag');
-
-    const textoBotao = document.createElement('span');
-    textoBotao.innerText = 'Confirme seus dados';
-
-    const totalDoCarrinho = document.createElement('span');
-    totalDoCarrinho.classList.add('total-price');
-
-    div.append(textoBotao);
-    div.append(totalDoCarrinho);
-    container.append(div);
-}
 
 let inputsPreenchido = 0;
 // Tratando dados informados no formulário

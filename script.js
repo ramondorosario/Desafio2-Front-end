@@ -34,6 +34,7 @@ esconderBanner.addEventListener('click', () => {
     clearInterval(idTempo);
     preencherCupom.value = codigoCupom;
     esconderBanner.hidden = true;
+    totalDoCarrinho();
 })
 
 // Consumos de API
@@ -230,9 +231,9 @@ const addFilmeNaSacola = (filme) => {
         </div>
     </div>
     <div class="content-add" id="id${filme.id}">
-        <img src="images/bag/add.png" class="add" alt="">
+        <img src="./images/bag/add.png" class="add" alt="">
         <span class="amount">1</span>
-        <img src="images/bag/delete.png" class="delete" alt="">
+        <img src="./images/bag/delete.png" class="delete" alt="">
     </div>
     `
 
@@ -247,8 +248,12 @@ const addFilmeNaSacola = (filme) => {
         filmesAdicionadosNaSacola.forEach((item, i) => {
             if (item.id === idFilme) {
                 filmesAdicionadosNaSacola[i].quantidade++
-                atualizarItemNaSacola(filmesAdicionadosNaSacola[i])
             }
+            if (filmesAdicionadosNaSacola[i].quantidade > 1) {
+                const iconeDeletar = document.querySelector(`.films-bag #id${filme.id} .delete`);
+                iconeDeletar.setAttribute('src', './images/bag/menos.png');
+            }
+            atualizarItemNaSacola(filmesAdicionadosNaSacola[i]);
         })       
     })
 
@@ -264,6 +269,9 @@ const addFilmeNaSacola = (filme) => {
         filmesAdicionadosNaSacola.forEach((item, i) => {
             if (item.id === idFilme) {
                 filmesAdicionadosNaSacola[i].quantidade--
+                if (filmesAdicionadosNaSacola[i].quantidade === 1) {
+                    iconeDeletar.setAttribute('src', './images/bag/delete.png');
+                }  
                 if (filmesAdicionadosNaSacola[i].quantidade === 0) {
                     const filmesDaSacola = document.querySelectorAll('.films-bag li');
                     if(filmesDaSacola.length === 1) {
@@ -274,7 +282,7 @@ const addFilmeNaSacola = (filme) => {
                     // Remove o filme da sacola e da lista de filmes adicionados na sacola
                     filmesDaSacola[i].remove();
                     filmesAdicionadosNaSacola.splice(i, 1);
-                }                
+                }              
                 atualizarItemNaSacola(filmesAdicionadosNaSacola[i]);                
             }
         })       
@@ -291,14 +299,25 @@ const atualizarItemNaSacola = (filme) => {
 /** Calcula o total em compras do carrinho */
 const totalDoCarrinho = () => {
     const addTotalDoCarrinho = document.querySelector('.confirm-bag .total-price');
+    const inputCupom = document.querySelector('.bag-container input');
+    const cupomValido = inputCupom.value === 'HTMLNAOELINGUAGEM' ? true : false;
     
     let total = 0;
     for(filme of filmesAdicionadosNaSacola) {
         total += Number(filme.valor.replace(',', '.')) * filme.quantidade;
     }
     
-    if(total) addTotalDoCarrinho.innerText = `R$ ${total.toFixed(2)}`
+    if(total) {
+        if (cupomValido) return addTotalDoCarrinho.innerText = `R$ ${(total / 2).toFixed(2)}`
+        addTotalDoCarrinho.innerText = `R$ ${total.toFixed(2)}`
+    }
 }
+
+// Adociona evento de blur para quando for inserido algum cupom recaulcular o total do carrinho
+const inputCupom = document.querySelector('.bag-container input');
+inputCupom.addEventListener('blur', () => {
+    totalDoCarrinho();
+})
 
 /** Insere o botão de confirmar dados para efetuar o pagamento */
 const inserirBotaoConfirmarDados = () => {

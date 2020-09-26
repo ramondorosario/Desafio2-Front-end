@@ -1,6 +1,9 @@
-.main {
-    margin-left:  156px;
-    margin-right: 156px;
+.main-center {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin: 24px 156px;
+    max-width: 1200px;
 }
 
 /* Form */
